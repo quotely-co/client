@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "My Vite Extension",
+    "version": "1.0",
+    "description": "A Vite-based Chrome extension",
+    "permissions": [
+      "activeTab"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "icons": {
+      "16": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    },
+    "content_security_policy": {
+      "extension_pages": {
+        "script-src": [
+          "'self'",
+          "'wasm-unsafe-eval'",
+          "'inline-speculation-rules'"
+        ],
+        "object-src": ["'self'"],
+        "style-src": ["'self'", "'unsafe-inline'"]
+      }
+    }
+  }
+  

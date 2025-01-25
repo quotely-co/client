@@ -1,0 +1,14 @@
+The Main Component of the software should entail, 
+Ability for Customers to make and Produce their Own Quotations 
+In a Manner of Choosing Variations of the product for example 6oz cup/8oz cup/ 12oz cup Etc, 
+Ability to add Custom fee fields for each Product 
+For example plate Fee/print Fee/ Color Fee 
+Each Product have Their Own MOQ(minimum order quantity) listed
+Ability to Create Products Oriented Discount Voucher, 
+Ability to add a % percentage for each product and possibly have the ability to issue an Automatic discounts if Client Ordered quantity exceeds a Certain amount, 
+Have the ability to allow Factories To edit and control Their Prices/moq/fees/vouchers from their Control panel,
+The Factories Should be able to add Their Logo to the Quotations issued by The system as well as Adding a their Details and having an expiration date On The Quotation issued assigned by them,
+Each Product should be Visible with a Photo/description/ +&- to add and Subtract quantities in certain increments set By the factory, 
+Clients should be able to add multiple products for them to issue the final quotation and have the ability to be passed on To a sale Representative
+If possible the ability to create a mockup of Certain Products with clients logo, as for a Cup or a Bag Of a Burger box etc with Clients logo, t-shirt with Client Logo 
+Ability for factories to set Up CBM depending on Order quantity of A Certain products So The Quotation Include The Shipping CBM
