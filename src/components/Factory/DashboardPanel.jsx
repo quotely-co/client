@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { 
   FileText, 
   Package, 
   Clock, 
-  CheckCircle,
-  XCircle,
-  TrendingUp,
-  DollarSign,
-  Boxes,
-  Calendar
+  DollarSign
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -22,7 +17,6 @@ const DashboardPanel = () => {
     { name: 'May', value: 58 },
     { name: 'Jun', value: 72 }
   ];
-
 
   const stats = [
     { 
@@ -51,22 +45,15 @@ const DashboardPanel = () => {
     }
   ];
 
-  const recentQuotes = [
-    { id: "QT-001", client: "Tech Solutions", status: "Pending", amount: "₹45,000", date: "2024-01-15" },
-    { id: "QT-002", client: "Global Industries", status: "Approved", amount: "₹78,000", date: "2024-01-14" },
-    { id: "QT-003", client: "Smart Corp", status: "Rejected", amount: "₹32,000", date: "2024-01-13" },
-    { id: "QT-004", client: "Mega Systems", status: "Approved", amount: "₹95,000", date: "2024-01-12" }
-  ];
-
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="w-full">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="section-title mb-2">Factory Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Factory Dashboard</h1>
           <p className="text-gray-600">Welcome back, manage your quotations and track performance</p>
         </div>
-        <button className="btn btn-primary">
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center hover:bg-blue-700">
           <FileText size={18} className="mr-2" />
           New Quotation
         </button>
@@ -77,7 +64,7 @@ const DashboardPanel = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="card p-6 flex flex-col"
+            className="bg-white rounded-lg shadow p-6 flex flex-col"
           >
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -93,11 +80,21 @@ const DashboardPanel = () => {
         ))}
       </div>
 
-      {/* Charts & Recent Activity */}
-      
-
-      {/* Recent Quotations */}
-      
+      {/* Chart Section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 className="text-lg font-semibold mb-4">Quotation Trends</h2>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={quotationData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="value" stroke="#4F46E5" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 };
