@@ -9,6 +9,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const HOST = import.meta.env.VITE_HOST_URL;
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -16,7 +17,7 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", {
+            const response = await axios.post(`${HOST}/api/auth/login`, {
                 email,
                 password,
             });

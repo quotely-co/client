@@ -10,6 +10,7 @@ const RegisterPage = () => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const HOST = import.meta.env.VITE_HOST_URL;
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -20,7 +21,7 @@ const RegisterPage = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData);
+      const response = await axios.post(`${HOST}/api/auth/register`, formData);
       if (response.data.success) {
         toast.success(response.data.message);
         setIsOtpModalOpen(true);
@@ -38,7 +39,7 @@ const RegisterPage = () => {
 
   const handleOtpSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/verify-otp", { email: formData.email, otp });
+      const response = await axios.post(`${HOST}/api/auth/verify-otp`, { email: formData.email, otp });
       if (response.data.message === "User verified successfully") {
         const { token, id } = response.data;
         localStorage.setItem("token", token);
