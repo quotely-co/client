@@ -10,12 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-scroll-area": "^1.2.2",
+    "@radix-ui/react-separator": "^1.1.1",
+    "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-tooltip": "^1.1.7",
     "@react-pdf/renderer": "^4.1.6",
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.5.0",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.9",
     "blob-stream": "^0.1.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.16.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
@@ -26,7 +33,8 @@
     "react-hot-toast": "^2.5.1",
     "react-router-dom": "^7.1.1",
     "recharts": "^2.15.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

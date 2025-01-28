@@ -6,11 +6,11 @@ import noodleImage from "../assets/noodle.png";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
-  const navigate = useNavigate(); // Corrected typo from `naviagte` to `navigate`
+  const navigate = useNavigate(); 
   
-  // Corrected handleLogin to be passed as reference
+
   const handleLogin = () => {
-    navigate('/register'); // Navigating to the logon page
+    navigate('/auth/register');
   };
 
   const heroRef = useRef(null);

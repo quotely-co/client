@@ -29,7 +29,8 @@ const App = () => (
         {/* Customer routes */}
         <Route path="/auth/register" element={<OpenRoute><Register /></OpenRoute>} />
         <Route path="/auth/login" element={<OpenRoute><Login /></OpenRoute>} />
-        <Route path="/dashboard/*" element={<ProtectedRoute><CustomerDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/*" element={<CustomerDashboard />} />
+
 
         {/* Factory routes */}
         <Route path="/auth/factory/register" element={<OpenRoute><FactoryRegister /></OpenRoute>} />
