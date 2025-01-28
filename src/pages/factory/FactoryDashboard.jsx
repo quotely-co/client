@@ -1,22 +1,9 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  LayoutDashboard,
-  Package,
-  FileText,
-  Percent,
-  UserCircle,
-  Menu
-} from "lucide-react";
-
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { LayoutDashboard, Package, FileText, Percent, UserCircle, Menu, LogOut } from "lucide-react";
 import DashboardPanel from "../../components/Factory/DashboardPanel";
 import Products from "../../components/Factory/Products";
 import Quotations from "../../components/Factory/Quotations";
@@ -27,6 +14,11 @@ const FactoryDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/factory/login");
+  };
+
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/factory/' },
     { icon: Package, label: 'Products', path: '/factory/products' },
@@ -34,7 +26,6 @@ const FactoryDashboard = () => {
     { icon: Percent, label: 'Discounts', path: '/factory/discounts' },
     { icon: UserCircle, label: 'Profile', path: '/factory/profile' },
   ];
-  
 
   const NavItems = () => (
     <div className="space-y-2">
@@ -44,10 +35,7 @@ const FactoryDashboard = () => {
           <Button
             key={item.path}
             variant={isActive ? "secondary" : "ghost"}
-            className={cn(
-              "w-full justify-start",
-              isActive && "bg-secondary"
-            )}
+            className={cn("w-full justify-start", isActive && "bg-secondary")}
             onClick={() => navigate(item.path)}
           >
             <item.icon className="mr-2 h-4 w-4" />
@@ -55,6 +43,9 @@ const FactoryDashboard = () => {
           </Button>
         );
       })}
+      <Button variant="destructive" className="w-full justify-start mt-4" onClick={handleLogout}>
+        <LogOut className="mr-2 h-4 w-4" /> Logout
+      </Button>
     </div>
   );
 
