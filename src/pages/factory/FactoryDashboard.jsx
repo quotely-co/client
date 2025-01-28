@@ -16,7 +16,7 @@ const FactoryDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/factory/login");
+    navigate("/auth/factory/login");
   };
 
   const menuItems = [
