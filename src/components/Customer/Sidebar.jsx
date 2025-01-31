@@ -1,81 +1,111 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { 
-  LayoutDashboard, 
-  FileTextIcon, 
-  TruckIcon, 
-  BarChart2, 
-  HelpCircleIcon, 
-  UserCircle, 
-  LogOut 
+import { useNavigate, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import toast from "react-hot-toast";
+import {
+  LayoutDashboard,
+  FileTextIcon,
+  TruckIcon,
+  BarChart2,
+  HelpCircleIcon,
+  LogOut,
+  Package,
+  Bell,
+  Settings,
 } from "lucide-react";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={20} /> },
-    { name: "Create Quotation", path: "/dashboard/quotations", icon: <FileTextIcon size={20} /> },
-    { name: "My Orders", path: "/dashboard/orders", icon: <FileTextIcon size={20} /> },
-    { name: "Stores", path: "/dashboard/stores", icon: <TruckIcon size={20} /> },
-    { name: "Analytics", path: "/dashboard/analytics", icon: <BarChart2 size={20} /> },
-    { name: "Support", path: "/dashboard/support", icon: <HelpCircleIcon size={20} /> },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: FileTextIcon, label: "Quotations", path: "/quotations" },
+    { icon: TruckIcon, label: "Stores", path: "/stores" },
+    { icon: BarChart2, label: "Analytics", path: "/dashboard/analytics" },
+    { icon: HelpCircleIcon, label: "Support", path: "/dashboard/support" },
   ];
 
   return (
-    <div className="w-64 h-full bg-gradient-to-b from-black to-[#001e80] text-white flex flex-col fixed left-0 top-0 overflow-hidden">
-      {/* Logo Section */}
-      <div className="p-6 border-b border-white/10">
-        <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-          Customer Hub
-        </h2>
-        <p className="text-sm text-white/60 mt-1">Manage Your Account</p>
+    <div className="flex flex-col h-full p-6 bg-background border-r shadow-md">
+      {/* Logo */}
+      <div className="flex items-center gap-2 mb-8">
+        <div className="bg-primary p-2 rounded-lg">
+          <Package className="h-6 w-6 text-primary-foreground" />
+        </div>
+        <div className="flex flex-col">
+          <span className="font-bold text-lg">ShipMaster</span>
+          <span className="text-xs text-muted-foreground">Customer Portal</span>
+        </div>
       </div>
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 pt-4 overflow-y-auto">
-        <ul className="flex flex-col gap-1 px-3">
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <li key={item.name}>
-                <Link
-                  to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-150 ${
-                    isActive 
-                      ? 'bg-white/10 text-white font-medium' 
-                      : 'text-white/60 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-      {/* Bottom Section (Profile + Logout) */}
-      <div className="p-4 border-t border-white/10">
-        <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-            <UserCircle size={24} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h4 className="font-medium truncate">John Doe</h4>
-            <p className="text-sm text-white/60 truncate">customer@example.com</p>
+      {/* User Profile */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
+          <Avatar className="h-10 w-10">
+            <AvatarImage src="/api/placeholder/32/32" alt="User" />
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="font-medium">John Doe</span>
+            <span className="text-xs text-muted-foreground">john@example.com</span>
           </div>
         </div>
-        
-        {/* Logout Button */}
-        <button 
-          onClick={() => console.log("Logout clicked")}
-          className="flex items-center gap-2 w-full px-4 py-2 mt-4 rounded-lg hover:bg-white/5 text-white/60 hover:text-white transition-colors"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
+      </div>
+
+      {/* Navigation */}
+      <div className="space-y-1">
+        <div className="text-xs font-semibold text-muted-foreground mb-2 px-2">
+          MAIN MENU
+        </div>
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <Button
+              key={item.path}
+              variant={isActive ? "secondary" : "ghost"}
+              className={cn("w-full justify-start hover:bg-secondary/60", isActive && "bg-secondary font-medium")}
+              onClick={() => navigate(item.path)}
+            >
+              <item.icon className="mr-2 h-4 w-4" />
+              {item.label}
+            </Button>
+          );
+        })}
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* Quick Actions */}
+      <div className="space-y-1">
+        <div className="text-xs font-semibold text-muted-foreground mb-2 px-2">
+          QUICK ACTIONS
+        </div>
+        <Button variant="ghost" className="w-full justify-start">
+          <Bell className="mr-2 h-4 w-4" />
+          Notifications
+        </Button>
+        <Button variant="ghost" className="w-full justify-start">
+          <Settings className="mr-2 h-4 w-4" />
+          Settings
+        </Button>
+      </div>
+
+      {/* Logout */}
+      <div className="mt-auto pt-4">
+        <Separator className="mb-4" />
+        <Button variant="destructive" className="w-full justify-start" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" /> Logout
+        </Button>
       </div>
     </div>
   );

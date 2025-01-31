@@ -37,7 +37,7 @@ const ShopsPage = () => {
   );
 
   const handleShopClick = (shopId) => {
-    navigate(`/shop/${shopId}`);
+    navigate(`/${shopId}`);
   };
 
   return (
@@ -74,7 +74,7 @@ const ShopsPage = () => {
               <Card
                 key={shop._id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleShopClick(shop._id)}
+                onClick={() => handleShopClick(shop.factoryName)}
               >
                 <img
                   src={shop.logo_url || "/placeholder.jpg"}
