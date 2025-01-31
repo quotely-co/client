@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,10 +16,15 @@ import {
   Bell,
   Settings,
 } from "lucide-react";
+import axios from "axios";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [user, setUser] = useState({});
+  const { storeName } = useParams();
+  const token = localStorage.getItem("token");
+  const HOST = import.meta.env.VITE_HOST_URL;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -27,6 +32,22 @@ const Sidebar = () => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${HOST}/api/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: FileTextIcon, label: "Quotations", path: "/quotations" },
@@ -43,7 +64,7 @@ const Sidebar = () => {
           <Package className="h-6 w-6 text-primary-foreground" />
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-lg">ShipMaster</span>
+          <span className="font-bold text-lg">{user.username}</span>
           <span className="text-xs text-muted-foreground">Customer Portal</span>
         </div>
       </div>
@@ -56,8 +77,8 @@ const Sidebar = () => {
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-medium">John Doe</span>
-            <span className="text-xs text-muted-foreground">john@example.com</span>
+            <span className="font-medium">{user.username}</span>
+            <span className="text-xs text-muted-foreground">{user.email}</span>
           </div>
         </div>
       </div>

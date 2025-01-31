@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 const QuotationBuilder = () => {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [factory, setFactory] = useState({});
+  const [factory, setFactory] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { storeName } = useParams();
@@ -21,19 +21,25 @@ const QuotationBuilder = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await axios.get(`${HOST}/api/products`);
-      setProducts(res.data);
+        const res = await axios.get(`${HOST}/api/products`);
+        setProducts(res.data);
     };
+
     const fetchFactory = async () => {
-      const tokenParts = token.split('.');
-      const payload = JSON.parse(atob(tokenParts[1]));
-      const factoryId = payload.factoryId;
-      const response = await axios.get(`${HOST}/api/factory?id=${factoryId}`);
-      setFactory(response.data);
+        const response = await axios.get(`${HOST}/api/factory?id=${storeName}`);
+    
+        
+        // Assuming the factory data is in response.data[0], use that to set the factory state
+        if (response.data && response.data.length > 0) {
+            setFactory(response.data[0]);
+            console.log(factory);
+            
+        }
     };
+
     fetchProduct();
     fetchFactory();
-  }, []);
+}, []);
 
   const [quotationDetails, setQuotationDetails] = useState({
     clientName: '',

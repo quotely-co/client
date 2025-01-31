@@ -44,7 +44,7 @@ const RegisterPage = () => {
         const { token, id } = response.data;
         localStorage.setItem("token", token);
         toast.success("Verification successful!");
-        navigate("/onboarding");
+        navigate("/dashboard");
       } else {
         setError("Invalid OTP. Please try again.");
       }
