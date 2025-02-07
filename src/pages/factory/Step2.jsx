@@ -44,7 +44,6 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
       );
 
       if (response.status === 200) {
-        console.log(response.data);
         
         localStorage.setItem("token" , response.data.token)
         toast.success("Onborded SuccesFully")

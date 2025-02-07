@@ -64,16 +64,21 @@ const QuotationBuilder = () => {
   const DownloadPDF = async () => {
     try {
 
-      const response = await axios.get(`${HOST}/api/factory/generate-pdf`, {
-        params: {
+      const response = await axios.post(
+        `${HOST}/api/factory/generate-pdf`,
+        {
+         
           factoryName: "My Factory",
-          data: JSON.stringify(selectedProducts),
+          data: selectedProducts, // Send as an object instead of JSON string
         },
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
 
       // Create a blob URL for the PDF
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -172,7 +177,7 @@ const QuotationBuilder = () => {
                 className="h-12 w-auto"
               />
               <div className="text-right">
-                <p className="font-semibold text-gray-800">{factory.factoryName || "nme"}</p>
+                <p className="font-semibold text-gray-800">{factory.name || "nme"}</p>
                 <p className="text-sm text-gray-500">
                   Valid until: {new Date(Date.now() * 86400000).toLocaleDateString()}
                 </p>

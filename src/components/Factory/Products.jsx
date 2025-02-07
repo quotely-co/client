@@ -39,7 +39,6 @@ const Products = () => {
         const factoryId = payload.factoryId
 
         const res = await axios.get(`${HOST}/api/products?id=${factoryId}`);
-        console.log(res.data);
 
         setProducts(res.data);
       } catch (error) {
@@ -201,7 +200,6 @@ const Products = () => {
       const response = await axios.delete(`${HOST}/api/products/${id}`);
       const updatedProducts = await axios.get(`${HOST}/api/products`);
       setProducts(updatedProducts.data);
-      console.log("Product deleted:", response.data.message);
       toast.success("Product Deteled Succesfully")
     } catch (error) {
       console.log(error);

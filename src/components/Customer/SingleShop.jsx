@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams ,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 const QuotationBuilder = () => {
@@ -26,7 +26,7 @@ const QuotationBuilder = () => {
         const response = await axios.get(`${HOST}/api/factory?id=${storeName}`);
         if (response.data && response.data.length > 0) {
           setFactory(response.data[0]);
-          console.log(response.data.length);
+
           
         } else {
           // No factory found, redirect to dashboard
@@ -40,13 +40,14 @@ const QuotationBuilder = () => {
     fetchFactory();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchProduct = async () => {
+      alert(factory._id)
       const res = await axios.get(`${HOST}/api/products?id=${factory._id}`);
       setProducts(res.data);
     };
     fetchProduct()
-  })
+  }, [])
   const [quotationDetails, setQuotationDetails] = useState({
     clientName: '',
     clientLogo: null,
@@ -82,18 +83,21 @@ const QuotationBuilder = () => {
   const DownloadPDF = async () => {
     try {
 
-      const response = await axios.get(`${HOST}/api/factory/generate-pdf`, {
-        params: {
+      const response = await axios.post(
+        `${HOST}/api/user/generate-pdf`,
+        {
+          factoryId: factory._id,
           factoryName: "My Factory",
-          data: JSON.stringify(selectedProducts),
+          data: selectedProducts,
         },
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      // Create a blob URL for the PDF
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;

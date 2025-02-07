@@ -23,7 +23,7 @@ const LoginPage = () => {
                 is_customer: true
             });
 
-            console.log(response);
+    
 
             const { token } = response.data;
 

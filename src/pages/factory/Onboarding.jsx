@@ -28,7 +28,6 @@ const Onboarding = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Onboarding Data:", formData);
     alert("Onboarding Complete!");
   };
 

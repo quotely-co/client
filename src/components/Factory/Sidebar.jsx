@@ -32,7 +32,7 @@ const Sidebar = () => {
     const fetchData = async (req, res) => {
       const response = await axios.get(`${HOST}/api/factory?id=${factoryId}`)
       setFactory(response.data);
-      console.log(response);
+      
       
     }
     fetchData()

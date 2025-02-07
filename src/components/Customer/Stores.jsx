@@ -18,7 +18,7 @@ const ShopsPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${HOST}/api/factory/factories`);
-        console.log("API Response:", response.data); // Debugging
+       
         setShops(response.data || []); // Ensure it’s always an array
       } catch (error) {
         console.error("Error fetching shops:", error);
