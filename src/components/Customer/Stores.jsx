@@ -74,15 +74,15 @@ const ShopsPage = () => {
               <Card
                 key={shop._id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleShopClick(shop.factoryName)}
+                onClick={() => handleShopClick(shop.name)}
               >
                 <img
                   src={shop.logo_url || "/placeholder.jpg"}
-                  alt={shop.factoryName || "Shop"}
+                  alt={shop.name || "Shop"}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
                 <CardHeader>
-                  <CardTitle>{shop.factoryName || "Unnamed Shop"}</CardTitle>
+                  <CardTitle>{shop.name || "Unnamed Shop"}</CardTitle>
                   <CardDescription>{shop.address || "No address available"}</CardDescription>
                 </CardHeader>
                 <CardContent>

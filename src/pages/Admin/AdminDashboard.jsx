@@ -112,7 +112,7 @@ function AdminDashboard() {
                             <tbody>
                                 {factories.map((factory) => (
                                     <tr key={factory._id} className="text-black/80 even:bg-gray-50">
-                                        <td className="px-6 py-4 text-sm">{factory.factoryName}</td>
+                                        <td className="px-6 py-4 text-sm">{factory.name}</td>
                                         <td className="px-6 py-4 text-sm">{factory.email}</td>
                                         <td className="px-6 py-4 text-sm">{factory.phone_number}</td>
                                         <td className="px-6 py-4 text-sm">

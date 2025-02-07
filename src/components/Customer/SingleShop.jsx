@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams ,useNavigate } from 'react-router-dom';
 
 
 const QuotationBuilder = () => {
+  const navigate = useNavigate()
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [factory, setFactory] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { storeName } = useParams();
-  
+
 
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
@@ -20,27 +21,32 @@ const QuotationBuilder = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchProduct = async () => {
-        const res = await axios.get(`${HOST}/api/products`);
-        setProducts(res.data);
-    };
-
     const fetchFactory = async () => {
+      try {
         const response = await axios.get(`${HOST}/api/factory?id=${storeName}`);
-    
-        
-        // Assuming the factory data is in response.data[0], use that to set the factory state
         if (response.data && response.data.length > 0) {
-            setFactory(response.data[0]);
-            console.log(factory);
-            
+          setFactory(response.data[0]);
+          console.log(response.data.length);
+          
+        } else {
+          // No factory found, redirect to dashboard
+          navigate('/dashboard');
         }
+      } catch (error) {
+        console.error('Error fetching factory:', error);
+        navigate('/dashboard');
+      }
     };
-
-    fetchProduct();
     fetchFactory();
-}, []);
+  }, []);
 
+  useEffect(()=>{
+    const fetchProduct = async () => {
+      const res = await axios.get(`${HOST}/api/products?id=${factory._id}`);
+      setProducts(res.data);
+    };
+    fetchProduct()
+  })
   const [quotationDetails, setQuotationDetails] = useState({
     clientName: '',
     clientLogo: null,
@@ -184,7 +190,7 @@ const QuotationBuilder = () => {
                 className="h-12 w-auto"
               />
               <div className="text-right">
-                <p className="font-semibold text-gray-800">{factory.factoryName || "nme"}</p>
+                <p className="font-semibold text-gray-800">{factory.name || "nme"}</p>
                 <p className="text-sm text-gray-500">
                   Valid until: {new Date(Date.now() * 86400000).toLocaleDateString()}
                 </p>

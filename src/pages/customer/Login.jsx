@@ -17,15 +17,18 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`${`https://server-bshw.onrender.com`}/api/auth/login`, {
+            const response = await axios.post(`${HOST}/api/auth/login`, {
                 email,
                 password,
+                is_customer: true
             });
+
+            console.log(response);
 
             const { token } = response.data;
 
             // Store token in localStorage
-            localStorage.setItem("authToken", token);
+            localStorage.setItem("token", token);
 
             toast.success("login successfull")
             navigate("/dashboard");

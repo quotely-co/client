@@ -29,7 +29,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     toast.success("Logged out successfully");
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   useEffect(() => {
