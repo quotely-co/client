@@ -2,21 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
 const QuotationBuilder = () => {
-  const navigate = useNavigate()
-  const [products, setProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [factory, setFactory] = useState([]);
-  const [isExpanded, setIsExpanded] = useState(false);
-
+  const navigate = useNavigate();
   const { storeName } = useParams();
 
-
-  const toggleDescription = () => {
-    setIsExpanded(!isExpanded);
-  };
-
+  const [products, setProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [factory, setFactory] = useState(null);
+  const [isExpanded, setIsExpanded] = useState({});  // Changed to object to track each product
+  
   const HOST = import.meta.env.VITE_HOST_URL;
   const token = localStorage.getItem('token');
 
@@ -26,10 +20,7 @@ const QuotationBuilder = () => {
         const response = await axios.get(`${HOST}/api/factory?id=${storeName}`);
         if (response.data && response.data.length > 0) {
           setFactory(response.data[0]);
-
-          
         } else {
-          // No factory found, redirect to dashboard
           navigate('/dashboard');
         }
       } catch (error) {
@@ -38,16 +29,22 @@ const QuotationBuilder = () => {
       }
     };
     fetchFactory();
-  }, []);
+  }, [storeName, navigate, HOST]);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      alert(factory._id)
-      const res = await axios.get(`${HOST}/api/products?id=${factory._id}`);
-      setProducts(res.data);
+    const fetchProducts = async () => {
+      if (!factory || !factory._id) return;
+
+      try {
+        const response = await axios.get(`${HOST}/api/products?id=${factory._id}`);
+        setProducts(response.data || []);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
     };
-    fetchProduct()
-  }, [])
+    fetchProducts();
+  }, [factory, HOST]);
+
   const [quotationDetails, setQuotationDetails] = useState({
     clientName: '',
     clientLogo: null,
@@ -56,14 +53,14 @@ const QuotationBuilder = () => {
   });
 
   const calculateProductTotal = (product) => {
+    if (!product.selectedVariation) return 0;
     const baseAmount = product.quantity * product.selectedVariation.basePrice;
-    const fees = product.fees.reduce((sum, fee) => sum + fee.amount, 0);
+    const fees = product.fees?.reduce((sum, fee) => sum + fee.amount, 0) || 0;
     return baseAmount + fees;
   };
 
   const removeProductFromQuotation = (idx) => {
-    const updatedProducts = selectedProducts.filter((_, index) => index !== idx);
-    setSelectedProducts(updatedProducts);
+    setSelectedProducts((prev) => prev.filter((_, index) => index !== idx));
   };
 
   const calculateDiscount = (total) => {
@@ -74,37 +71,48 @@ const QuotationBuilder = () => {
   };
 
   const addProductToQuotation = (product, variation) => {
-    setSelectedProducts([...selectedProducts, {
-      ...product,
-      selectedVariation: variation,
-      quantity: product.moq
-    }]);
+    const increment = product.increment || 1; // Add default increment value
+    setSelectedProducts((prev) => [
+      ...prev,
+      {
+        ...product,
+        selectedVariation: variation,
+        quantity: product.moq || 1,
+        increment: increment
+      }
+    ]);
   };
+
+  const toggleDescription = (productId) => {
+    setIsExpanded(prev => ({
+      ...prev,
+      [productId]: !prev[productId]
+    }));
+  };
+
   const DownloadPDF = async () => {
     try {
-
       const response = await axios.post(
         `${HOST}/api/user/generate-pdf`,
         {
-          factoryId: factory._id,
-          factoryName: "My Factory",
+          factoryId: factory?._id,
+          factoryName: factory?.name || "Unknown Factory",
           data: selectedProducts,
         },
         {
           responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "quotation.pdf"); // Set file name
+      link.setAttribute("download", "quotation.pdf");
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url); // Clean up the URL object
     } catch (error) {
       console.error("Error downloading PDF:", error);
       alert("Failed to download PDF. Please try again.");
@@ -114,12 +122,10 @@ const QuotationBuilder = () => {
   const calculateTotalAmount = () => {
     const total = selectedProducts.reduce((sum, product) => sum + calculateProductTotal(product), 0);
     const discount = calculateDiscount(total);
-    const discountAmount = total * discount;
-    const finalAmount = total - discountAmount;
     return {
       total,
-      discountAmount,
-      finalAmount
+      discountAmount: total * discount,
+      finalAmount: total - (total * discount)
     };
   };
 
@@ -156,19 +162,19 @@ const QuotationBuilder = () => {
                     <div className="mt-4 flex-1 sm:mt-0">
                       <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
                       <p className="text-sm text-gray-600">
-                        {isExpanded
+                        {isExpanded[product._id]
                           ? product.description
-                          : `${product.description.slice(0, 100)}...`}
+                          : `${product.description?.slice(0, 100)}...`}
                       </p>
                       <button
-                        className="text-blue-500 text-xs mt-2"
-                        onClick={toggleDescription}
+                        className="mt-2 text-xs text-blue-500"
+                        onClick={() => toggleDescription(product._id)}
                       >
-                        {isExpanded ? 'Read less' : 'Read more'}
+                        {isExpanded[product._id] ? 'Read less' : 'Read more'}
                       </button>
                       <p className="mt-2 text-sm font-medium text-gray-700">MOQ: {product.moq} units</p>
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {product.variations.map((variation, idx) => (
+                        {product.variations?.map((variation, idx) => (
                           <button
                             key={idx}
                             onClick={() => addProductToQuotation(product, variation)}
@@ -189,14 +195,14 @@ const QuotationBuilder = () => {
           <div id="quotation-content" className="rounded-lg bg-white p-6 shadow-md">
             <div className="mb-6 flex items-center justify-between">
               <img
-                src={factory.logo_url}
+                src={factory?.logo_url}
                 alt="Factory logo"
                 className="h-12 w-auto"
               />
               <div className="text-right">
-                <p className="font-semibold text-gray-800">{factory.name || "nme"}</p>
+                <p className="font-semibold text-gray-800">{factory?.name || "Unknown Factory"}</p>
                 <p className="text-sm text-gray-500">
-                  Valid until: {new Date(Date.now() * 86400000).toLocaleDateString()}
+                  Valid until: {new Date(Date.now() + 30 * 86400000).toLocaleDateString()}
                 </p>
               </div>
             </div>
@@ -206,7 +212,7 @@ const QuotationBuilder = () => {
               placeholder="Client Name"
               className="mb-6 w-full rounded-lg border border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none"
               value={quotationDetails.clientName}
-              onChange={(e) => setQuotationDetails({ ...quotationDetails, clientName: e.target.value })}
+              onChange={(e) => setQuotationDetails(prev => ({ ...prev, clientName: e.target.value }))}
             />
 
             {selectedProducts.length > 0 ? (
@@ -227,7 +233,10 @@ const QuotationBuilder = () => {
                           className="rounded-lg bg-gray-100 px-2 py-1 text-gray-700 hover:bg-gray-200"
                           onClick={() => {
                             const newProducts = [...selectedProducts];
-                            newProducts[idx].quantity = Math.max(product.moq, product.quantity - product.increment);
+                            newProducts[idx].quantity = Math.max(
+                              product.moq,
+                              product.quantity - (product.increment || 1)
+                            );
                             setSelectedProducts(newProducts);
                           }}
                         >
@@ -238,7 +247,7 @@ const QuotationBuilder = () => {
                           className="rounded-lg bg-gray-100 px-2 py-1 text-gray-700 hover:bg-gray-200"
                           onClick={() => {
                             const newProducts = [...selectedProducts];
-                            newProducts[idx].quantity += product.increment;
+                            newProducts[idx].quantity += product.increment || 1;
                             setSelectedProducts(newProducts);
                           }}
                         >
@@ -263,7 +272,7 @@ const QuotationBuilder = () => {
               placeholder="Additional Notes"
               className="mt-6 w-full rounded-lg border border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none"
               value={quotationDetails.notes}
-              onChange={(e) => setQuotationDetails({ ...quotationDetails, notes: e.target.value })}
+              onChange={(e) => setQuotationDetails(prev => ({ ...prev, notes: e.target.value }))}
             />
 
             {/* Summary Panel */}
@@ -284,9 +293,7 @@ const QuotationBuilder = () => {
           </div>
         </div>
       </div>
-
     </div>
-
   );
 };
 
