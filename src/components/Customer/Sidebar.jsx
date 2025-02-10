@@ -15,6 +15,7 @@ import {
   Package,
   Bell,
   Settings,
+  
 } from "lucide-react";
 import axios from "axios";
 
@@ -52,6 +53,7 @@ const Sidebar = () => {
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: FileTextIcon, label: "Quotations", path: "/quotations" },
     { icon: TruckIcon, label: "Stores", path: "/stores" },
+    { icon: Package, label: "Products", path: "/dashboard/products" },
     { icon: BarChart2, label: "Analytics", path: "/dashboard/analytics" },
     { icon: HelpCircleIcon, label: "Support", path: "/dashboard/support" },
   ];

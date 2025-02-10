@@ -8,6 +8,7 @@ import Quotations from "../../components/Customer/Quotations";
 import Stores from "../../components/Customer/Stores";
 import SingleShop from "../../components/Customer/SingleShop";
 import Sidebar from "../../components/Customer/Sidebar";
+import Products from "../../components/Customer/Products";
 
 const CustomerDashboard = () => {
   return (
@@ -39,6 +40,7 @@ const CustomerDashboard = () => {
               <Route path="/stores" element={<Stores />} />
               <Route path="/dashboard/analytics" element={<div>Analytics</div>} />
               <Route path="/dashboard/support" element={<div>Support</div>} />
+              <Route path="/dashboard/products" element={<Products/>} />
 
               {/* Dynamic shop route */}
               <Route path="/:storeName" element={<SingleShop />} />
