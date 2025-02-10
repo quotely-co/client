@@ -1,191 +1,210 @@
 import React, { useState } from 'react';
+import { 
+  Clock, 
+  CheckCircle2, 
+  Send, 
+  Truck, 
+  Ban, 
+  ChevronDown,
+  FileText,
+  Filter,
+  Search
+} from 'lucide-react';
 
-const QuotationBuilder = () => {
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [customFees, setCustomFees] = useState({});
+const QuotationList = () => {
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Sample product data structure
-  const sampleProducts = [
+  // Sample quotation data
+  const quotations = [
     {
-      id: 1,
-      name: "Paper Cup",
-      variants: [
-        { size: "6oz", basePrice: 0.05, moq: 1000 },
-        { size: "8oz", basePrice: 0.06, moq: 1000 },
-        { size: "12oz", basePrice: 0.08, moq: 800 },
+      id: "QT-2024-001",
+      customerName: "Tech Solutions Inc",
+      date: "2024-02-11",
+      amount: 12500.00,
+      status: "pending",
+      items: [
+        { name: "Paper Cup 8oz", quantity: 5000 },
+        { name: "Paper Cup 12oz", quantity: 3000 }
       ],
-      customFees: [
-        { name: "Plate Fee", defaultAmount: 50 },
-        { name: "Print Fee", defaultAmount: 30 },
-        { name: "Color Fee", defaultAmount: 20 },
+      lastUpdated: "2024-02-11"
+    },
+    {
+      id: "QT-2024-002",
+      customerName: "Coffee House Chain",
+      date: "2024-02-10",
+      amount: 8750.00,
+      status: "sent",
+      items: [
+        { name: "Paper Cup 6oz", quantity: 10000 }
       ],
-      image: "/api/placeholder/200/200",
-      description: "High-quality paper cups for hot and cold beverages",
-      incrementSize: 100,
-      cbmRates: [
-        { minQuantity: 1000, cbm: 0.5 },
-        { minQuantity: 5000, cbm: 2.0 },
-        { minQuantity: 10000, cbm: 3.5 },
-      ]
+      lastUpdated: "2024-02-10"
+    },
+    {
+      id: "QT-2024-003",
+      customerName: "Restaurant Group LLC",
+      date: "2024-02-09",
+      amount: 15000.00,
+      status: "approved",
+      items: [
+        { name: "Paper Cup 12oz", quantity: 8000 },
+        { name: "Paper Cup 16oz", quantity: 5000 }
+      ],
+      lastUpdated: "2024-02-09"
+    },
+    {
+      id: "QT-2024-004",
+      customerName: "Retail Solutions Co",
+      date: "2024-02-08",
+      amount: 9800.00,
+      status: "delivered",
+      items: [
+        { name: "Paper Cup 8oz", quantity: 6000 }
+      ],
+      lastUpdated: "2024-02-08"
+    },
+    {
+      id: "QT-2024-005",
+      customerName: "Events Management Inc",
+      date: "2024-02-07",
+      amount: 4500.00,
+      status: "rejected",
+      items: [
+        { name: "Paper Cup 6oz", quantity: 3000 }
+      ],
+      lastUpdated: "2024-02-07"
     }
   ];
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedVariant, setSelectedVariant] = useState(null);
-  const [quantity, setQuantity] = useState(0);
-
-  const handleAddProduct = () => {
-    if (!selectedProduct || !selectedVariant || quantity < selectedVariant.moq) {
-      return;
-    }
-
-    const newProduct = {
-      ...selectedProduct,
-      variant: selectedVariant,
-      quantity,
-      fees: customFees[selectedProduct.id] || {},
-      subtotal: calculateSubtotal(selectedVariant, quantity, customFees[selectedProduct.id] || {})
-    };
-
-    setSelectedProducts([...selectedProducts, newProduct]);
+  const statusConfig = {
+    pending: { icon: Clock, color: 'text-yellow-500 bg-yellow-50' },
+    sent: { icon: Send, color: 'text-blue-500 bg-blue-50' },
+    approved: { icon: CheckCircle2, color: 'text-green-500 bg-green-50' },
+    delivered: { icon: Truck, color: 'text-purple-500 bg-purple-50' },
+    rejected: { icon: Ban, color: 'text-red-500 bg-red-50' }
   };
 
-  const calculateSubtotal = (variant, qty, fees) => {
-    const baseTotal = variant.basePrice * qty;
-    const feesTotal = Object.values(fees).reduce((sum, fee) => sum + fee, 0);
-    return baseTotal + feesTotal;
+  const filteredQuotations = quotations.filter(quote => {
+    const matchesStatus = filterStatus === 'all' || quote.status === filterStatus;
+    const matchesSearch = quote.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         quote.id.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  const StatusBadge = ({ status }) => {
+    const { icon: Icon, color } = statusConfig[status];
+    return (
+      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-medium capitalize ${color}`}>
+        <Icon className="w-4 h-4" />
+        {status}
+      </span>
+    );
   };
 
   return (
-    <div className="p-4">
-      <div className="section-heading mb-8">
-        <h1 className="section-title">Create New Quotation</h1>
-        <p className="section-description">Select products and customize your quotation</p>
+    <div className="max-w-7xl mx-auto p-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Quotations</h1>
+          <p className="text-gray-600 mt-1">Manage and track your quotations</p>
+        </div>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
+          <FileText className="w-4 h-4" />
+          New Quotation
+        </button>
       </div>
 
-      <div className="card mb-8">
-        {/* Product Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {sampleProducts.map(product => (
-            <div 
-              key={product.id} 
-              className="card cursor-pointer"
-              onClick={() => setSelectedProduct(product)}
-            >
-              <img 
-                src={product.image} 
-                alt={product.name}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+      {/* Filters */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search quotations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
-              <h3 className="text-[22px] font-bold tracking-tight mb-2">{product.name}</h3>
-              <p className="text-[#010d3e]">{product.description}</p>
             </div>
-          ))}
-        </div>
-
-        {selectedProduct && (
-          <div className="space-y-6">
-            {/* Variant Selection */}
-            <div className="flex gap-2">
-              {selectedProduct.variants.map(variant => (
-                <button
-                  key={variant.size}
-                  onClick={() => setSelectedVariant(variant)}
-                  className={`btn ${selectedVariant?.size === variant.size ? 'btn-primary' : 'btn-text'}`}
-                >
-                  {variant.size}
-                </button>
-              ))}
-            </div>
-
-            {/* Quantity Input */}
-            {selectedVariant && (
-              <div>
-                <label className="block text-[#010d3e] mb-2">
-                  Quantity (MOQ: {selectedVariant.moq})
-                </label>
-                <div className="flex gap-2">
-                  <button
-                    className="btn btn-text"
-                    onClick={() => setQuantity(Math.max(0, quantity - selectedProduct.incrementSize))}
-                    disabled={quantity <= 0}
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
-                    min={selectedVariant.moq}
-                    step={selectedProduct.incrementSize}
-                    className="w-full rounded-lg border border-[#222]/10 px-3 py-2"
-                  />
-                  <button
-                    className="btn btn-text"
-                    onClick={() => setQuantity(quantity + selectedProduct.incrementSize)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Custom Fees */}
-            {selectedVariant && (
-              <div className="space-y-4">
-                {selectedProduct.customFees.map(fee => (
-                  <div key={fee.name} className="flex gap-4 items-center">
-                    <label className="text-[#010d3e] w-24">{fee.name}</label>
-                    <input
-                      type="number"
-                      defaultValue={fee.defaultAmount}
-                      onChange={(e) => {
-                        setCustomFees({
-                          ...customFees,
-                          [selectedProduct.id]: {
-                            ...customFees[selectedProduct.id],
-                            [fee.name]: Number(e.target.value)
-                          }
-                        });
-                      }}
-                      className="rounded-lg border border-[#222]/10 px-3 py-2"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <button 
-              onClick={handleAddProduct}
-              disabled={!selectedVariant || quantity < selectedVariant.moq}
-              className="btn btn-primary w-full"
-            >
-              Add to Quotation
-            </button>
           </div>
-        )}
+          <div className="flex items-center gap-2">
+            <Filter className="w-5 h-5 text-gray-400" />
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="rounded-lg border border-gray-300 py-2 pl-4 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="sent">Sent</option>
+              <option value="approved">Approved</option>
+              <option value="delivered">Delivered</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      {/* Selected Products Summary */}
-      {selectedProducts.length > 0 && (
-        <div className="card">
-          <h2 className="text-[22px] font-bold tracking-tight mb-6">Quotation Summary</h2>
-          <div className="space-y-4">
-            {selectedProducts.map((product, index) => (
-              <div key={index} className="border-b border-[#F1F1F1] pb-4">
-                <h4 className="font-bold">{product.name} - {product.variant.size}</h4>
-                <p className="text-[#010d3e]">Quantity: {product.quantity}</p>
-                <p className="text-[#010d3e]">Subtotal: ${product.subtotal.toFixed(2)}</p>
-              </div>
-            ))}
-            <div className="font-bold text-right text-[#010d3e]">
-              Total: ${selectedProducts.reduce((sum, product) => sum + product.subtotal, 0).toFixed(2)}
-            </div>
-          </div>
+      {/* Quotations List */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Quotation ID</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Customer</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Items</th>
+                <th className="text-right py-4 px-6 text-sm font-medium text-gray-500">Amount</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Status</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Last Updated</th>
+                <th className="text-right py-4 px-6 text-sm font-medium text-gray-500">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredQuotations.map((quote) => (
+                <tr key={quote.id} className="border-b border-gray-200 hover:bg-gray-50">
+                  <td className="py-4 px-6">
+                    <span className="font-medium text-gray-900">{quote.id}</span>
+                  </td>
+                  <td className="py-4 px-6">
+                    <span className="text-gray-900">{quote.customerName}</span>
+                  </td>
+                  <td className="py-4 px-6">
+                    <div className="text-sm text-gray-600">
+                      {quote.items.map((item, index) => (
+                        <div key={index}>
+                          {item.name} × {item.quantity.toLocaleString()}
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="py-4 px-6 text-right">
+                    <span className="font-medium text-gray-900">
+                      ${quote.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    </span>
+                  </td>
+                  <td className="py-4 px-6">
+                    <StatusBadge status={quote.status} />
+                  </td>
+                  <td className="py-4 px-6">
+                    <span className="text-gray-600">{quote.lastUpdated}</span>
+                  </td>
+                  <td className="py-4 px-6 text-right">
+                    <button className="text-gray-400 hover:text-gray-600">
+                      <ChevronDown className="w-5 h-5" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default QuotationBuilder;
+export default QuotationList;

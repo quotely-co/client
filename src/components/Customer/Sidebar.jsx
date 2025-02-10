@@ -51,8 +51,8 @@ const Sidebar = () => {
   }, []);
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-    { icon: FileTextIcon, label: "Quotations", path: "/quotations" },
     { icon: TruckIcon, label: "Stores", path: "/stores" },
+    { icon: FileTextIcon, label: "Quotations", path: "/quotations" },
     { icon: Package, label: "Products", path: "/dashboard/products" },
     { icon: BarChart2, label: "Analytics", path: "/dashboard/analytics" },
     { icon: HelpCircleIcon, label: "Support", path: "/dashboard/support" },
