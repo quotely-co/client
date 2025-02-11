@@ -15,7 +15,7 @@ import {
   Package,
   Bell,
   Settings,
-  
+
 } from "lucide-react";
 import axios from "axios";
 
@@ -117,7 +117,7 @@ const Sidebar = () => {
           <Bell className="mr-2 h-4 w-4" />
           Notifications
         </Button>
-        <Button variant="ghost" className="w-full justify-start">
+        <Button  variant="ghost" className="w-full justify-start">
           <Settings className="mr-2 h-4 w-4" />
           Settings
         </Button>
