@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PlusIcon, MinusIcon, XIcon } from 'lucide-react';
 
 const QuotationBuilder = () => {
   const navigate = useNavigate();
@@ -132,53 +133,57 @@ const QuotationBuilder = () => {
   const { total, discountAmount, finalAmount } = calculateTotalAmount();
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+    <div className="min-h-screen bg-gray-50 p-2 sm:p-4 md:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8 flex flex-col items-center justify-between sm:flex-row">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-800">Quotation Builder</h1>
+        <div className="mb-4 sm:mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-800">
+            Quotation Builder
+          </h1>
           <button
             onClick={DownloadPDF}
-            className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 sm:mt-0"
+            className="w-full sm:w-auto rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
           >
             Download Quotation
           </button>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2">
           {/* Product Selection Panel */}
-          <div className="rounded-lg bg-white p-6 shadow-md">
+          <div className="rounded-lg bg-white p-4 sm:p-6 shadow-md">
             <h2 className="mb-4 text-lg font-bold text-gray-700">Available Products</h2>
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {products.map(product => (
-                <div key={product._id} className="rounded-lg border border-gray-200 p-4 shadow-sm">
-                  <div className="flex flex-col items-start sm:flex-row sm:items-center sm:space-x-4">
+                <div key={product._id} className="rounded-lg border border-gray-200 p-3 sm:p-4 shadow-sm">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="h-24 w-24 rounded-lg object-cover"
+                      className="w-full sm:w-24 h-48 sm:h-24 rounded-lg object-cover"
                     />
-                    <div className="mt-4 flex-1 sm:mt-0">
+                    <div className="flex-1">
                       <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 mt-1">
                         {isExpanded[product._id]
                           ? product.description
                           : `${product.description?.slice(0, 100)}...`}
                       </p>
                       <button
-                        className="mt-2 text-xs text-blue-500"
+                        className="mt-2 text-xs text-blue-500 hover:text-blue-600"
                         onClick={() => toggleDescription(product._id)}
                       >
                         {isExpanded[product._id] ? 'Read less' : 'Read more'}
                       </button>
-                      <p className="mt-2 text-sm font-medium text-gray-700">MOQ: {product.moq} units</p>
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <p className="mt-2 text-sm font-medium text-gray-700">
+                        MOQ: {product.moq} units
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2">
                         {product.variations?.map((variation, idx) => (
                           <button
                             key={idx}
                             onClick={() => addProductToQuotation(product, variation)}
-                            className="rounded-lg bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200"
+                            className="rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200"
                           >
                             Add {variation.size}
                           </button>
@@ -192,14 +197,14 @@ const QuotationBuilder = () => {
           </div>
 
           {/* Quotation Preview Panel */}
-          <div id="quotation-content" className="rounded-lg bg-white p-6 shadow-md">
-            <div className="mb-6 flex items-center justify-between">
+          <div className="rounded-lg bg-white p-4 sm:p-6 shadow-md">
+            <div className="mb-6 flex flex-col sm:flex-row items-center gap-4 sm:justify-between">
               <img
                 src={factory?.logo_url}
                 alt="Factory logo"
                 className="h-12 w-auto"
               />
-              <div className="text-right">
+              <div className="text-center sm:text-right">
                 <p className="font-semibold text-gray-800">{factory?.name || "Unknown Factory"}</p>
                 <p className="text-sm text-gray-500">
                   Valid until: {new Date(Date.now() + 30 * 86400000).toLocaleDateString()}
@@ -218,8 +223,8 @@ const QuotationBuilder = () => {
             {selectedProducts.length > 0 ? (
               <div className="space-y-4">
                 {selectedProducts.map((product, idx) => (
-                  <div key={idx} className="rounded-lg border border-gray-200 p-4 shadow-sm">
-                    <div className="flex items-center justify-between">
+                  <div key={idx} className="rounded-lg border border-gray-200 p-3 sm:p-4 shadow-sm">
+                    <div className="flex flex-col gap-3 sm:gap-0 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <h3 className="font-semibold text-gray-800">
                           {product.name} - {product.selectedVariation.size}
@@ -228,36 +233,41 @@ const QuotationBuilder = () => {
                           ${product.selectedVariation.basePrice} per unit
                         </p>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
+                          <button
+                            className="rounded-md p-1 text-gray-700 hover:bg-gray-200"
+                            onClick={() => {
+                              const newProducts = [...selectedProducts];
+                              newProducts[idx].quantity = Math.max(
+                                product.moq,
+                                product.quantity - (product.increment || 1)
+                              );
+                              setSelectedProducts(newProducts);
+                            }}
+                          >
+                            <MinusIcon className="h-4 w-4" />
+                          </button>
+                          <span className="w-12 text-center font-medium text-gray-800">
+                            {product.quantity}
+                          </span>
+                          <button
+                            className="rounded-md p-1 text-gray-700 hover:bg-gray-200"
+                            onClick={() => {
+                              const newProducts = [...selectedProducts];
+                              newProducts[idx].quantity += product.increment || 1;
+                              setSelectedProducts(newProducts);
+                            }}
+                          >
+                            <PlusIcon className="h-4 w-4" />
+                          </button>
+                        </div>
                         <button
-                          className="rounded-lg bg-gray-100 px-2 py-1 text-gray-700 hover:bg-gray-200"
-                          onClick={() => {
-                            const newProducts = [...selectedProducts];
-                            newProducts[idx].quantity = Math.max(
-                              product.moq,
-                              product.quantity - (product.increment || 1)
-                            );
-                            setSelectedProducts(newProducts);
-                          }}
-                        >
-                          -
-                        </button>
-                        <span className="font-medium text-gray-800">{product.quantity}</span>
-                        <button
-                          className="rounded-lg bg-gray-100 px-2 py-1 text-gray-700 hover:bg-gray-200"
-                          onClick={() => {
-                            const newProducts = [...selectedProducts];
-                            newProducts[idx].quantity += product.increment || 1;
-                            setSelectedProducts(newProducts);
-                          }}
-                        >
-                          +
-                        </button>
-                        <button
-                          className="rounded-lg bg-red-100 px-2 py-1 text-red-700 hover:bg-red-200"
+                          className="rounded-lg bg-red-100 px-2 py-1.5 text-red-700 hover:bg-red-200 flex items-center gap-1"
                           onClick={() => removeProductFromQuotation(idx)}
                         >
-                          Remove
+                          <XIcon className="h-4 w-4" />
+                          <span className="hidden sm:inline">Remove</span>
                         </button>
                       </div>
                     </div>
@@ -265,18 +275,20 @@ const QuotationBuilder = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-sm text-gray-500">No products added to the quotation yet.</div>
+              <div className="text-center py-8 text-sm text-gray-500">
+                No products added to the quotation yet.
+              </div>
             )}
 
             <textarea
               placeholder="Additional Notes"
-              className="mt-6 w-full rounded-lg border border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none"
+              className="mt-6 w-full rounded-lg border border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none min-h-[100px]"
               value={quotationDetails.notes}
               onChange={(e) => setQuotationDetails(prev => ({ ...prev, notes: e.target.value }))}
             />
 
             {/* Summary Panel */}
-            <div className="mt-6 border-t pt-4">
+            <div className="mt-6 border-t pt-4 space-y-2">
               <div className="flex justify-between">
                 <span className="font-semibold text-gray-800">Total:</span>
                 <span className="text-gray-800">${total.toFixed(2)}</span>
@@ -285,7 +297,7 @@ const QuotationBuilder = () => {
                 <span className="font-semibold text-gray-800">Discount:</span>
                 <span className="text-gray-800">-${discountAmount.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between text-lg">
                 <span className="font-semibold text-gray-800">Final Amount:</span>
                 <span className="text-gray-800">${finalAmount.toFixed(2)}</span>
               </div>
