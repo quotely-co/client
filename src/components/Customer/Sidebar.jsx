@@ -15,11 +15,11 @@ import {
   Package,
   Bell,
   Settings,
-
 } from "lucide-react";
 import axios from "axios";
 
-const Sidebar = () => {
+// Add onSidebarClose prop
+const Sidebar = ({ onSidebarClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState({});
@@ -30,7 +30,14 @@ const Sidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     toast.success("Logged out successfully");
+    if (onSidebarClose) onSidebarClose(); // Close sidebar on logout
     navigate("/auth/login");
+  };
+
+  // Modified navigation handler
+  const handleNavigation = (path) => {
+    navigate(path);
+    if (onSidebarClose) onSidebarClose(); // Close sidebar after navigation
   };
 
   useEffect(() => {
@@ -49,6 +56,7 @@ const Sidebar = () => {
 
     fetchUser();
   }, []);
+
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: TruckIcon, label: "Stores", path: "/stores" },
@@ -59,9 +67,9 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex flex-col h-full p-6 bg-background border-r shadow-md">
+    <div className="flex flex-col h-full p-4 sm:p-6 bg-background">
       {/* Logo */}
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center gap-2 mb-6">
         <div className="bg-primary p-2 rounded-lg">
           <Package className="h-6 w-6 text-primary-foreground" />
         </div>
@@ -96,8 +104,11 @@ const Sidebar = () => {
             <Button
               key={item.path}
               variant={isActive ? "secondary" : "ghost"}
-              className={cn("w-full justify-start hover:bg-secondary/60", isActive && "bg-secondary font-medium")}
-              onClick={() => navigate(item.path)}
+              className={cn(
+                "w-full justify-start hover:bg-secondary/60",
+                isActive && "bg-secondary font-medium"
+              )}
+              onClick={() => handleNavigation(item.path)}
             >
               <item.icon className="mr-2 h-4 w-4" />
               {item.label}
@@ -113,11 +124,25 @@ const Sidebar = () => {
         <div className="text-xs font-semibold text-muted-foreground mb-2 px-2">
           QUICK ACTIONS
         </div>
-        <Button variant="ghost" className="w-full justify-start">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start"
+          onClick={() => {
+            // Handle notification click
+            if (onSidebarClose) onSidebarClose();
+          }}
+        >
           <Bell className="mr-2 h-4 w-4" />
           Notifications
         </Button>
-        <Button  variant="ghost" className="w-full justify-start">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start"
+          onClick={() => {
+            // Handle settings click
+            if (onSidebarClose) onSidebarClose();
+          }}
+        >
           <Settings className="mr-2 h-4 w-4" />
           Settings
         </Button>
@@ -126,7 +151,11 @@ const Sidebar = () => {
       {/* Logout */}
       <div className="mt-auto pt-4">
         <Separator className="mb-4" />
-        <Button variant="destructive" className="w-full justify-start" onClick={handleLogout}>
+        <Button 
+          variant="destructive" 
+          className="w-full justify-start" 
+          onClick={handleLogout}
+        >
           <LogOut className="mr-2 h-4 w-4" /> Logout
         </Button>
       </div>
