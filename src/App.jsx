@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import OpenRoute from "./components/auth/OpenRoute";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import LoadingSpinner from "./components/common/Loading";
 
 // Lazy-loaded components
 const Landing = lazy(() => import("./pages/Landing"));
@@ -21,7 +22,7 @@ const FactoryRegister = lazy(() => import("./pages/factory/Register"));
 
 const App = () => (
   <Router>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingSpinner />}>
       <Routes>
         {/* General */}
         <Route path="/" element={<Landing />} />
@@ -30,7 +31,6 @@ const App = () => (
         <Route path="/auth/register" element={<OpenRoute><Register /></OpenRoute>} />
         <Route path="/auth/login" element={<OpenRoute><Login /></OpenRoute>} />
         <Route path="/*" element={<CustomerDashboard />} />
-
 
         {/* Factory routes */}
         <Route path="/auth/factory/register" element={<OpenRoute><FactoryRegister /></OpenRoute>} />
