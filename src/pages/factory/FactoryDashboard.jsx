@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -9,85 +9,97 @@ import Products from "../../components/Factory/Products";
 import Quotations from "../../components/Factory/Quotations";
 import Discounts from "../../components/Factory/Discounts";
 import Profile from "../../components/Factory/Profile";
+import Sidebar from '@/components/Factory/Sidebar';
 
 const FactoryDashboard = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/auth/factory/login");
-  };
-
-  const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/factory/' },
-    { icon: Package, label: 'Products', path: '/factory/products' },
-    { icon: FileText, label: 'Quotations', path: '/factory/quotations' },
-    { icon: Percent, label: 'Discounts', path: '/factory/discounts' },
-    { icon: UserCircle, label: 'Profile', path: '/factory/profile' },
-  ];
-
-  const NavItems = () => (
-    <div className="space-y-2">
-      {menuItems.map((item) => {
-        const isActive = location.pathname === item.path;
-        return (
-          <Button
-            key={item.path}
-            variant={isActive ? "secondary" : "ghost"}
-            className={cn("w-full justify-start", isActive && "bg-secondary")}
-            onClick={() => navigate(item.path)}
-          >
-            <item.icon className="mr-2 h-4 w-4" />
-            {item.label}
-          </Button>
-        );
-      })}
-      <Button variant="destructive" className="w-full justify-start mt-4" onClick={handleLogout}>
-        <LogOut className="mr-2 h-4 w-4" /> Logout
-      </Button>
-    </div>
-  );
+  const handleClose = () => setIsOpen(false);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Mobile Sheet/Drawer */}
-      <Sheet>
+    <div className="h-screen flex bg-background">
+      {/* Mobile Sidebar (Drawer) */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="lg:hidden fixed top-4 left-4 z-50">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="lg:hidden fixed top-2 left-2 z-50 shadow-sm"
+          >
             <Menu className="h-4 w-4" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-4">
-          <div className="mt-8">
-            <NavItems />
+        <SheetContent 
+          side="left" 
+          className="w-64 p-0 border-r"
+        >
+          <div className="h-full overflow-y-auto">
+            <Sidebar onSidebarClose={handleClose} />
           </div>
         </SheetContent>
       </Sheet>
 
-      <div className="flex min-h-screen">
-        {/* Desktop Sidebar */}
-        <div className="hidden lg:flex w-64 flex-col gap-4 border-r bg-background p-4">
-          <NavItems />
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block w-64 border-r shrink-0">
+        <div className="h-full overflow-y-auto">
+          <Sidebar />
         </div>
+      </div>
 
-        {/* Main Content */}
-        <div className="flex-1">
-          <main className="w-full min-h-screen">
-            <div className="p-8">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <main className="flex-1 overflow-y-auto">
+          <div className="px-2 py-2 sm:px-4 md:px-6 lg:px-8 min-h-screen">
+            <div className="max-w-full mx-auto">
               <Routes>
-                <Route path="/" element={<DashboardPanel />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/quotations" element={<Quotations />} />
-                <Route path="/discounts" element={<Discounts />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <div className="mt-2 lg:mt-4">
+                      <DashboardPanel />
+                    </div>
+                  } 
+                />
+                <Route 
+                  path="/quotations" 
+                  element={
+                    <div className="mt-2 lg:mt-4">
+                      <Quotations />
+                    </div>
+                  } 
+                />
+                
+                <Route 
+                  path="/analytics" 
+                  element={
+                    <div className="mt-2 lg:mt-4">
+                      Analytics
+                    </div>
+                  } 
+                />
+                <Route 
+                  path="/support" 
+                  element={
+                    <div className="mt-2 lg:mt-4">
+                      Support
+                    </div>
+                  } 
+                />
+                <Route 
+                  path="/products" 
+                  element={
+                    <div className="mt-2 lg:mt-4">
+                      <Products />
+                    </div>
+                  } 
+                />
               </Routes>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </div>
   );
 };
-
 export default FactoryDashboard;
+

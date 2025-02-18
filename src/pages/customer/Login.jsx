@@ -42,6 +42,7 @@ const LoginPage = () => {
     };
     return (
         <div className="flex h-screen bg-gray-50">
+           
             {/* Left Section - Just Image */}
             <div className="hidden lg:block lg:w-1/3">
                 <img
@@ -159,6 +160,15 @@ const LoginPage = () => {
                             className="text-[#1a1134] font-medium hover:underline focus:outline-none"
                         >
                             Sign up
+                        </button>
+                    </p>
+                    <p className="text-center text-sm text-gray-600 mt-6">
+                        <button
+                            type="button"
+                            onClick={() => navigate('/')}
+                            className="text-[#1a1134] font-medium hover:underline focus:outline-none"
+                        >
+                            Home
                         </button>
                     </p>
                 </div>

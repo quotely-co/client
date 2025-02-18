@@ -53,7 +53,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       await handleFileUpload(e.dataTransfer.files[0]);
     }
@@ -61,7 +61,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
 
   const handleSubmit = async () => {
     try {
-      
+
       const HOST = import.meta.env.VITE_HOST_URL;
       const token = localStorage.getItem("token");
 
@@ -131,13 +131,26 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
               />
             </div>
 
+            <div>
+              <label className="block mb-2 font-medium">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition"
+                placeholder="Enter your unique username"
+              />
+            </div>
+
+
+
             {/* Logo Upload */}
             <div>
               <label className="block mb-2 font-medium">Logo Upload</label>
               <div
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all ${
-                  dragActive ? "border-black bg-gray-50" : "border-gray-300"
-                }`}
+                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all ${dragActive ? "border-black bg-gray-50" : "border-gray-300"
+                  }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
@@ -145,9 +158,9 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
               >
                 {previewLogo ? (
                   <div className="flex flex-col items-center">
-                    <img 
-                      src={previewLogo} 
-                      alt="Logo preview" 
+                    <img
+                      src={previewLogo}
+                      alt="Logo preview"
                       className="h-24 w-auto mb-4 object-contain"
                     />
                     <button

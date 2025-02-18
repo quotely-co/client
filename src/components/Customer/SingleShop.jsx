@@ -5,7 +5,7 @@ import { PlusIcon, MinusIcon, XIcon } from 'lucide-react';
 
 const QuotationBuilder = () => {
   const navigate = useNavigate();
-  const { storeName } = useParams();
+  const { shopName } = useParams();
 
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -18,7 +18,8 @@ const QuotationBuilder = () => {
   useEffect(() => {
     const fetchFactory = async () => {
       try {
-        const response = await axios.get(`${HOST}/api/factory?id=${storeName}`);
+
+        const response = await axios.get(`${HOST}/api/factory?shopName=${shopName}`);
         if (response.data && response.data.length > 0) {
           setFactory(response.data[0]);
         } else {
@@ -30,7 +31,7 @@ const QuotationBuilder = () => {
       }
     };
     fetchFactory();
-  }, [storeName, navigate, HOST]);
+  }, [shopName, navigate, HOST]);
 
   useEffect(() => {
     const fetchProducts = async () => {

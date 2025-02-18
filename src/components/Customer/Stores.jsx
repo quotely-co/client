@@ -18,7 +18,8 @@ const ShopsPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${HOST}/api/factory/factories`);
-       
+        console.log(response);
+        
         setShops(response.data || []); // Ensure it’s always an array
       } catch (error) {
         console.error("Error fetching shops:", error);
@@ -36,8 +37,8 @@ const ShopsPage = () => {
     (shop.address && shop.address.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  const handleShopClick = (shopId) => {
-    navigate(`/${shopId}`);
+  const handleShopClick = (shopname) => {
+    navigate(`/${shopname}`);
   };
 
   return (
@@ -74,7 +75,7 @@ const ShopsPage = () => {
               <Card
                 key={shop._id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleShopClick(shop.name)}
+                onClick={() => handleShopClick(shop.shopName)}
               >
                 <img
                   src={shop.logo_url || "/placeholder.jpg"}
