@@ -100,7 +100,7 @@ const CustomerDashboard = () => {
                   } 
                 />
                 <Route 
-                  path="/:storeName" 
+                  path="/:shopName" 
                   element={
                     <div className="mt-2 lg:mt-4">
                       <SingleShop />

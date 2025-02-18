@@ -23,7 +23,7 @@ const QuotationBuilder = () => {
       const payload = JSON.parse(atob(tokenParts[1]));
       const factoryId = payload.factoryId;
       const response = await axios.get(`${HOST}/api/factory?id=${factoryId}`);
-      setFactory(response.data);
+      setFactory(response.data[0]);
     };
     fetchProduct();
     fetchFactory();
@@ -67,7 +67,7 @@ const QuotationBuilder = () => {
       const response = await axios.post(
         `${HOST}/api/factory/generate-pdf`,
         {
-         
+
           factoryName: "My Factory",
           data: selectedProducts, // Send as an object instead of JSON string
         },
@@ -78,7 +78,7 @@ const QuotationBuilder = () => {
           },
         }
       );
-      
+
 
       // Create a blob URL for the PDF
       const url = window.URL.createObjectURL(new Blob([response.data]));

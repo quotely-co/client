@@ -27,9 +27,11 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
 
       const HOST = import.meta.env.VITE_HOST_URL;
       const token = localStorage.getItem("token");
-
+      
       if (!token) {
         console.error("No access token found!");
+        toast.error("no user found")
+        navigate("/")
         return;
       }
       const userID = localStorage.getItem("UserId")
@@ -42,12 +44,15 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
           },
         }
       );
+      
 
       if (response.status === 200) {
-        
-        localStorage.setItem("token" , response.data.token)
+        localStorage.setItem("token", response.data.token)
         toast.success("Onborded SuccesFully")
         navigate("/factory ")
+      } else {
+        alert("hy")
+        toast.error(response.data.message)
       }
     } catch (error) {
       console.error("Error saving branding details", error);
