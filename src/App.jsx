@@ -9,6 +9,9 @@ import LoadingSpinner from "./components/common/Loading";
 const Landing = lazy(() => import("./pages/Landing"));
 const Support = lazy(() => import("./pages/Support"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 
 const Onboarding = lazy(() => import("./pages/factory/Onboarding"));
 const Admin = lazy(() => import("./pages/Admin/AdminDashboard"));
@@ -31,6 +34,10 @@ const App = () => (
         <Route path="/" element={<Landing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/Contact" element={<ContactUs />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+  <Route path="/refund-policy" element={<RefundPolicy />} />
+
 
         {/* Customer routes */}
         <Route path="/auth/register" element={<OpenRoute><Register /></OpenRoute>} />
