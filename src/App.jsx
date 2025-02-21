@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import OpenRoute from "./components/auth/OpenRoute";
@@ -7,6 +7,9 @@ import LoadingSpinner from "./components/common/Loading";
 
 // Lazy-loaded components
 const Landing = lazy(() => import("./pages/Landing"));
+const Support = lazy(() => import("./pages/Support"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+
 const Onboarding = lazy(() => import("./pages/factory/Onboarding"));
 const Admin = lazy(() => import("./pages/Admin/AdminDashboard"));
 const FactoryDashboard = lazy(() => import("./pages/factory/FactoryDashboard"));
@@ -26,6 +29,8 @@ const App = () => (
       <Routes>
         {/* General */}
         <Route path="/" element={<Landing />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/Contact" element={<ContactUs />} />
 
         {/* Customer routes */}
         <Route path="/auth/register" element={<OpenRoute><Register /></OpenRoute>} />
