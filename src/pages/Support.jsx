@@ -84,6 +84,9 @@ export default function Support() {
 
       {/* Contact Details */}
       <div className="mt-6 text-center">
+      <p className="text-gray-700">
+          📍 Address: Chemmankadavu , Malappuram, kerala, India
+        </p>
         <p className="text-gray-700">📞 Support Phone: +91 9744676504</p>
         <p className="text-gray-700">✉ Email: qquotely7@gmail.com</p>
         <p className="text-gray-700">🕒 Support Hours: Mon-Fri, 9AM - 6PM IST</p>
