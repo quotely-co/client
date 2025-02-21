@@ -37,8 +37,9 @@ const Footer = () => {
           <img src={SocialPinterest} alt="Pinterest" className="h-6 w-6" />
         </div>
         <p className="mt-6">
-          &copy; 2024 White label, Inc. All rights reserved.
+          &copy; {new Date().getFullYear()} White Label, Inc. All rights reserved.
         </p>
+
       </div>
     </footer>
   );

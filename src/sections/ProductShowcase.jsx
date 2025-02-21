@@ -1,5 +1,6 @@
 "use client";
 import productImage from "../assets/product-image.png";
+import productImage2 from "../assets/product-image-2.png";
 import pyramidImage from "../assets/pyramid.png";
 import tubeImage from "../assets/tube.png";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -24,15 +25,15 @@ const ProductShowcase = () => {
             <div className="tag">Boost productivity</div>
           </div>
           <h2 className="section-title mt-5">
-            A more effective way to track progress
+            Smarter Business Decisions with Accurate Quotes
           </h2>
           <p className="section-description mt-5">
-            Celebrate the joy of accomplishment with an app designed to track
-            your progress and motivate your efforts.
+            Get precise and reliable business quotations that help you plan, budget, and make informed decisions with confidence.
           </p>
+
         </div>
         <div className="relative">
-          <img src={productImage} alt="Product" className="mt-10" />
+          <img src={productImage2} alt="Product" className="mt-10" />
           <motion.div
             className="absolute -right-36 -top-32 hidden md:block"
             style={{ y: translateY }}  // Using 'y' instead of 'translateY'

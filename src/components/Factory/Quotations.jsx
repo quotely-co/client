@@ -14,14 +14,16 @@ const QuotationBuilder = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
+    const tokenParts = token.split('.');
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const factoryId = payload.factoryId;
+
     const fetchProduct = async () => {
-      const res = await axios.get(`${HOST}/api/products`);
+      const res = await axios.get(`${HOST}/api/products?id=${factoryId}`);
       setProducts(res.data);
     };
     const fetchFactory = async () => {
-      const tokenParts = token.split('.');
-      const payload = JSON.parse(atob(tokenParts[1]));
-      const factoryId = payload.factoryId;
+
       const response = await axios.get(`${HOST}/api/factory?id=${factoryId}`);
       setFactory(response.data[0]);
     };
