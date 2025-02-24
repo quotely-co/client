@@ -12,58 +12,58 @@ import TestimonialsColumn from "../components/TestimonialsColumn";
 
 const testimonials = [
   {
-    text: "As a seasoned designer always on the lookout for innovative tools, Framer.com instantly grabbed my attention.",
+    text: "Generating quotations for my factory has never been easier! The platform's automation saves me hours every day.",
     imageSrc: avatar1,
-    name: "Jamie Rivera",
-    username: "@jamietechguru00",
+    name: "Raj Mehta",
+    username: "@rajmanufactures",
   },
   {
-    text: "Our team's productivity has skyrocketed since we started using this tool.",
+    text: "I love how I can customize my quotation templates with my branding and send them instantly to customers.",
     imageSrc: avatar2,
-    name: "Josh Smith",
-    username: "@jjsmith",
+    name: "Sophia Carter",
+    username: "@sophiabusiness",
   },
   {
-    text: "This app has completely transformed how I manage my projects and deadlines.",
+    text: "Our company has seen a 30% increase in client engagement since we started using this quotation tool.",
     imageSrc: avatar3,
-    name: "Morgan Lee",
-    username: "@morganleewhiz",
+    name: "Nikhil Sharma",
+    username: "@nikhilindustries",
   },
   {
-    text: "I was amazed at how quickly we were able to integrate this app into our workflow.",
+    text: "With just a few clicks, I can create professional-looking quotations. No more messy spreadsheets!",
     imageSrc: avatar4,
-    name: "Casey Jordan",
-    username: "@caseyj",
+    name: "Elena Hughes",
+    username: "@elenaworks",
   },
   {
-    text: "Planning and executing events has never been easier. This app helps me keep track of all the moving parts, ensuring nothing slips through the cracks.",
+    text: "The API integration allows us to automate our quotation process and sync it with our CRM seamlessly.",
     imageSrc: avatar5,
-    name: "Taylor Kim",
-    username: "@taylorkimm",
+    name: "Javier Rodriguez",
+    username: "@javitech",
   },
   {
-    text: "The customizability and integration capabilities of this app are top-notch.",
+    text: "Now, my customers get instant quotations, and I can close deals much faster. A game-changer for my business!",
     imageSrc: avatar6,
-    name: "Riley Smith",
-    username: "@rileysmith1",
+    name: "Arjun Kapoor",
+    username: "@arjunexports",
   },
   {
-    text: "Adopting this app for our team has streamlined our project management and improved communication across the board.",
+    text: "Tracking and managing quotations has never been this easy. The analytics dashboard gives great insights!",
     imageSrc: avatar7,
-    name: "Jordan Patels",
-    username: "@jpatelsdesign",
+    name: "Lisa Brooks",
+    username: "@lisabsolutions",
   },
   {
-    text: "With this app, we can easily assign tasks, track progress, and manage documents all in one place.",
+    text: "I run a small factory, and this tool helps me compete with larger businesses by providing instant quotations to clients.",
     imageSrc: avatar8,
-    name: "Sam Dawson",
-    username: "@dawsontechtips",
+    name: "Mohammed Khan",
+    username: "@mkhantraders",
   },
   {
-    text: "Its user-friendly interface and robust features support our diverse needs.",
+    text: "Professional PDF quotations, custom branding, and easy email sending—this platform does it all!",
     imageSrc: avatar9,
-    name: "Casey Harper",
-    username: "@casey09",
+    name: "Emily Clark",
+    username: "@emilycworks",
   },
 ];
 
@@ -81,8 +81,7 @@ const Testimonials = () => {
         <div className="section-heading">
           <h2 className="section-title mt-5">What our users say</h2>
           <p className="section-description mt-5">
-            From intuitive design to powerful features, our app has become an
-            essential tool for users around the world.
+            From instant quotes to seamless automation, businesses rely on our platform to simplify their sales process.
           </p>
         </div>
         <div className="mt-10 flex max-h-[738px] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">

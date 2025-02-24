@@ -27,6 +27,9 @@ const Footer = () => {
           <button onClick={() => handleNavigate('/pricing')}>Pricing</button>
           <button onClick={() => handleNavigate('/support')}>Support</button>
           <button onClick={() => handleNavigate('/contact')}>Contact Us</button>
+          <button onClick={() => handleNavigate('/terms-of-service')}>Terms and Policy</button>
+          <button onClick={() => handleNavigate('/privacy-policy')}>privacy-policy</button>
+          <button onClick={() => handleNavigate('/refund-policy')}>refund-policy</button>
         </nav>
         {/* Social icons */}
         <div className="mt-6 flex justify-center gap-6">

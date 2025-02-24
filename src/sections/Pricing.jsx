@@ -1,56 +1,50 @@
-import React from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
-// import { ReactComponent as CheckIcon } from "@/assets/check.svg"; // Add if needed
 
 const pricingTiers = [
   {
-    title: "Free",
+    title: "Basic",
     monthlyPrice: 0,
     buttonText: "Get started for free",
     popular: false,
     inverse: false,
     features: [
-      "Up to 5 project members",
-      "Unlimited tasks and projects",
-      "2GB storage",
-      "Integrations",
-      "Basic support",
+      "Generate up to 5 quotations/month",
+      "Basic templates",
+      "Download as PDF",
+      "Email support",
+      "Limited customization",
     ],
   },
   {
-    title: "Pro",
-    monthlyPrice: 9,
-    buttonText: "Sign up now",
+    title: "Standard",
+    monthlyPrice: 19,
+    buttonText: "Upgrade now",
     popular: true,
     inverse: true,
     features: [
-      "Up to 50 project members",
-      "Unlimited tasks and projects",
-      "50GB storage",
-      "Integrations",
-      "Priority support",
-      "Advanced support",
-      "Export support",
+      "Generate up to 100 quotations/month",
+      "Custom branding (logo & colors)",
+      "Multiple templates",
+      "Remove watermark",
+      "Advanced PDF exports",
+      "Priority email support",
     ],
   },
   {
-    title: "Business",
-    monthlyPrice: 19,
-    buttonText: "Sign up now",
+    title: "Premium",
+    monthlyPrice: 49,
+    buttonText: "Get Premium",
     popular: false,
     inverse: false,
     features: [
-      "Up to 5 project members",
-      "Unlimited tasks and projects",
-      "200GB storage",
-      "Integrations",
-      "Dedicated account manager",
-      "Custom fields",
-      "Advanced analytics",
-      "Export capabilities",
-      "API access",
-      "Advanced security features",
+      "Unlimited quotations",
+      "Full branding & white-label option",
+      "Customizable quotation templates",
+      "API access for automation",
+      "Team collaboration features",
+      "Advanced analytics & insights",
+      "Dedicated support",
     ],
   },
 ];
@@ -62,7 +56,7 @@ const Pricing = () => {
         <div className="section-heading">
           <h2 className="section-title">Pricing</h2>
           <p className="section-description mt-5">
-            Free forever. Upgrade for unlimited tasks, better security, and exclusive features.
+            Choose a plan that fits your business needs. Start for free and scale as you grow.
           </p>
         </div>
         <div className="mt-10 flex flex-col items-center gap-6 lg:flex-row lg:items-end lg:justify-center">
@@ -120,7 +114,6 @@ const Pricing = () => {
               <ul className="mt-8 flex flex-col gap-5">
                 {tier.features.map((feature, index) => (
                   <li key={index} className="flex items-center gap-4 text-sm">
-                    {/* <CheckIcon className="h-6 w-6" /> */}
                     <span>{feature}</span>
                   </li>
                 ))}
