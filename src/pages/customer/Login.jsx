@@ -7,13 +7,11 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const HOST = import.meta.env.VITE_HOST_URL;
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError("");
         setLoading(true);
 
         try {
@@ -23,154 +21,130 @@ const LoginPage = () => {
                 is_customer: true
             });
 
-    
-
-            const { token } = response.data;
-
-            // Store token in localStorage
-            localStorage.setItem("token", token);
-
-            toast.success("login successfull")
+            localStorage.setItem("token", response.data.token);
+            toast.success("Login successful");
             navigate("/dashboard");
         } catch (err) {
-            const errorMsg =
-                err.response?.data?.message || "Something went wrong. Please try again.";
-            toast.error(errorMsg)
+            const errorMsg = err.response?.data?.message || "Login failed. Please check your credentials.";
+            toast.error(errorMsg);
         } finally {
             setLoading(false);
         }
     };
+
     return (
-        <div className="flex h-screen bg-gray-50">
-           
-            {/* Left Section - Just Image */}
-            <div className="hidden lg:block lg:w-1/3">
-                <img
-                    src="/images/hy.jpg"
-                    alt="Login Background"
-                    className="w-full h-full object-cover"
-                />
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <h1 className="text-center text-2xl font-medium text-gray-900">
+                    Welcome back
+                </h1>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Sign in to your White Label account
+                </p>
             </div>
 
-            {/* Right Section */}
-            <div className="w-full lg:w-2/3 flex items-center justify-center px-6 py-8">
-                <div className="w-full max-w-md">
-                    {/* Heading */}
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-800">Sign in to White Label</h1>
-                        <p className="text-sm text-gray-500 mt-2">
-                            Welcome back! Please login to your account.
-                        </p>
-                    </div>
-                    {/* Error Message */}
-                    {error && (
-                        <div className="bg-red-100 text-red-600 border border-red-300 p-2 rounded mb-4">
-                            {error}
-                        </div>
-                    )}
-
-                    {/* Google Sign-in Button */}
-                    <button
-                        className="w-full flex items-center justify-center border border-gray-300 rounded-lg p-3 hover:bg-gray-100 focus:ring-2 focus:ring-gray-400 transition"
-                        aria-label="Sign in with Google"
-                    >
-                        <img
-                            src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000"
-                            alt="Google"
-                            className="w-5 h-5 mr-2"
-                        />
-
-                        <span className="font-medium text-gray-700">Sign in with Google</span>
-                    </button>
-
-                    {/* Divider */}
-                    <div className="relative my-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div className="relative flex justify-center bg-gray-50 px-4">
-                            <span className="text-sm text-gray-500">or sign in with email</span>
-                        </div>
-                    </div>
-
-                    {/* Login Form */}
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className=" py-8 px-4  sm:rounded-lg sm:px-10">
                     <form className="space-y-6" onSubmit={handleLogin}>
-                        {/* Email Input */}
                         <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-gray-700"
-                            >
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email
                             </label>
-                            <input
-                                id="email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                placeholder="Enter your email"
-                                className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                            />
+                            <div className="mt-1">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    placeholder="you@example.com"
+                                />
+                            </div>
                         </div>
 
-                        {/* Password Input */}
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Password
-                                </label>
-                                <a
-                                    href="#"
-                                    className="text-sm text-blue-600 hover:underline focus:outline-none"
-                                >
-                                    Forgot Password?
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                Password
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-end">
+                            <div className="text-sm">
+                                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                    Forgot password?
                                 </a>
                             </div>
-                            <input
-                                id="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                placeholder="Enter your password"
-                                className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                            />
                         </div>
 
-                        {/* Sign In Button */}
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-[#1a1134] text-white p-3 rounded-lg hover:bg-[#2a1f44] focus:ring-2 focus:ring-[#1a1134] transition disabled:opacity-50"
-                        >
-                            {loading ? "Signing In..." : "Sign In"}
-                        </button>
+                        <div>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1a1134] hover:bg-[#2a1f44] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                            >
+                                {loading ? "Signing in..." : "Sign in"}
+                            </button>
+                        </div>
                     </form>
 
-                    {/* Sign Up Link */}
-                    <p className="text-center text-sm text-gray-600 mt-6">
-                        Don't have an account?{' '}
+                    <div className="mt-6">
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-2 bg-white text-gray-500">
+                                    Or continue with
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <button
+                                type="button"
+                                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                            >
+                                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                                </svg>
+                                <span className="ml-2">Google</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex justify-center space-x-4 text-sm">
                         <button
                             type="button"
-                            onClick={() => navigate('/auth/register')}
-                            className="text-[#1a1134] font-medium hover:underline focus:outline-none"
+                            onClick={() => navigate('/register')}
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
-                            Sign up
+                            Create account
                         </button>
-                    </p>
-                    <p className="text-center text-sm text-gray-600 mt-6">
+                        <span className="text-gray-500">•</span>
                         <button
                             type="button"
                             onClick={() => navigate('/')}
-                            className="text-[#1a1134] font-medium hover:underline focus:outline-none"
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
-                            Home
+                            Back to home
                         </button>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
