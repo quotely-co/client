@@ -26,32 +26,20 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
     try {
 
       const HOST = import.meta.env.VITE_HOST_URL;
-      const token = localStorage.getItem("token");
 
-      if (!token) {
-        console.error("No access token found!");
-        toast.error("no user found")
-        navigate("/")
-        return;
-      }
-      const userID = localStorage.getItem("UserId")
+      
       const response = await axios.post(
         `${HOST}/api/factory/add-factory`,
-        { formData, userID },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { formData },
       );
 
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token)
         toast.success("Onborded SuccesFully")
-        window.location.href = "https://yourcustomdomain.com/dashboard"; // 
+        const subdomain = response.data.subdomain|| "test"
+        window.location.href = `http://${subdomain}.localhost:5173`; // Redirect to subdomain
       } else {
-        alert("hy")
         toast.error(response.data.message)
       }
     } catch (error) {
