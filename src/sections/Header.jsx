@@ -48,7 +48,7 @@ const Header = () => {
     { name: 'Features', path: '/app/features' },
     { name: 'Customers', path: '/app/customers' },
     { name: 'Updates', path: '/app/updates' },
-    { name: 'For Factories', path: '/factory/register', highlight: true },
+    { name: 'For Factories', path: '/factory/onboarding', highlight: true },
   ];
 
   return (

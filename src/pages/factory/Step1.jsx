@@ -134,7 +134,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
                 />
               </div>
               <div>
-                <label className="block mb-2 font-medium">Username</label>
+                <label className="block mb-2 font-medium">Username <span className="text-red-500 text-sm"> (subdomain)</span></label>
                 <input
                   type="text"
                   name="username"

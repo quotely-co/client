@@ -49,7 +49,7 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token)
         toast.success("Onborded SuccesFully")
-        navigate("/factory ")
+        window.location.href = "https://yourcustomdomain.com/dashboard"; // 
       } else {
         alert("hy")
         toast.error(response.data.message)

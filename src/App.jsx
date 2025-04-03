@@ -48,7 +48,7 @@ const App = () => (
         <Route path="/factory/register" element={<OpenRoute><FactoryRegister /></OpenRoute>} />
         <Route path="/factory/login" element={<OpenRoute><FactoryLogin /></OpenRoute>} />
         <Route path="/factory/*" element={<ProtectedRoute><FactoryDashboard /></ProtectedRoute>} />
-        <Route path="/factory/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+        <Route path="/factory/onboarding" element={<OpenRoute><Onboarding /></OpenRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<Admin />}></Route>
