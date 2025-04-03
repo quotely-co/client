@@ -157,7 +157,7 @@ const RegisterPage = () => {
           <p className="text-center text-sm text-gray-600">
             Already have an account?{" "}
             <button
-              onClick={() => navigate("/auth/factory/login")}
+              onClick={() => navigate("/factory/login")}
               className="text-[#1a1134] hover:text-[#2a1f44] font-medium transition-colors duration-200"
             >
               Sign in

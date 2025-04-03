@@ -151,7 +151,7 @@ const LoginPage = () => {
                         Don't have an account?{' '}
                         <button
                             type="button"
-                            onClick={() => navigate('/auth/factory/register')}
+                            onClick={() => navigate('/factory/register')}
                             className="text-[#1a1134] font-medium hover:underline focus:outline-none"
                         >
                             Sign up
