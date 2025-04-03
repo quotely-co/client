@@ -61,7 +61,6 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
 
   const handleSubmit = async () => {
     try {
-
       const HOST = import.meta.env.VITE_HOST_URL;
       const token = localStorage.getItem("token");
 
@@ -89,68 +88,71 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
-      <div className="max-w-3xl mx-auto px-4">
-        {/* Progress Steps */}
-        <div className="flex justify-center mb-12">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center">
+    <div className="min-h-screen bg-white flex justify-center">
+      <div className="w-full max-w-3xl px-4 py-12">
+        {/* Progress Steps - Clean Design */}
+        <div className="flex justify-center mb-16">
+          <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center">1</div>
-              <div className="ml-2 font-medium">Branding</div>
+              <span className="ml-2 text-sm font-medium">Branding</span>
             </div>
-            <div className="w-16 h-0.5 bg-gray-300"></div>
-            <div className="flex items-center opacity-50">
-              <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">2</div>
-              <div className="ml-2">Contact</div>
+            <div className="w-16 h-px bg-gray-200 mx-4"></div>
+            <div className="flex items-center justify-center opacity-60">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2</div>
+              <span className="ml-2 text-sm">Contact</span>
             </div>
-            <div className="w-16 h-0.5 bg-gray-300"></div>
-            <div className="flex items-center opacity-50">
-              <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">3</div>
-              <div className="ml-2">Payment</div>
+            <div className="w-16 h-px bg-gray-200 mx-4"></div>
+            <div className="flex items-center justify-center opacity-60">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3</div>
+              <span className="ml-2 text-sm">Payment</span>
             </div>
           </div>
         </div>
 
-        <div className="section-heading mb-12">
-          <h2 className="section-title">Add Your Brand</h2>
-          <p className="section-description mt-4">Let's Upgrade your sales</p>
-        </div>
+        {/* Main Content Container */}
+        <div className="max-w-xl mx-auto">
+          {/* Header */}
+          <div className="mb-12">
+            <h1 className="text-2xl font-medium">Add Your Brand</h1>
+            <p className="text-gray-500 mt-1">Let's upgrade your sales</p>
+          </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-          <form className="space-y-8">
-            {/* Business Name */}
-            <div>
-              <label className="block mb-2 font-medium">Business Name</label>
-              <input
-                type="text"
-                name="businessName"
-                value={formData.businessName}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition"
-                placeholder="Enter your business name"
-              />
+          {/* Form */}
+          <div className="space-y-3">
+            {/* Business Name and Username */}
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <label className="block mb-2 font-medium">Business Name</label>
+                <input
+                  type="text"
+                  name="businessName"
+                  value={formData.businessName}
+                  onChange={handleChange}
+                  className="w-full p-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+                  placeholder="Enter business name"
+                />
+              </div>
+              <div>
+                <label className="block mb-2 font-medium">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full p-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+                  placeholder="Enter username"
+                />
+              </div>
             </div>
-
-            <div>
-              <label className="block mb-2 font-medium">Username</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition"
-                placeholder="Enter your unique username"
-              />
-            </div>
-
-
 
             {/* Logo Upload */}
             <div>
               <label className="block mb-2 font-medium">Logo Upload</label>
               <div
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all ${dragActive ? "border-black bg-gray-50" : "border-gray-300"
-                  }`}
+                className={`border border-dashed rounded-md p-10 flex flex-col items-center justify-center ${
+                  dragActive ? "border-black bg-gray-50" : "border-gray-300"
+                }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
@@ -161,7 +163,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
                     <img
                       src={previewLogo}
                       alt="Logo preview"
-                      className="h-24 w-auto mb-4 object-contain"
+                      className="h-16 w-auto mb-2 object-contain"
                     />
                     <button
                       type="button"
@@ -171,20 +173,20 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
                       }}
                       className="text-red-500 text-sm hover:text-red-600"
                     >
-                      Remove Logo
+                      Remove
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="flex justify-center">
-                      <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <>
+                    <div className="mb-2">
+                      <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
-                    <div>
-                      <p className="text-gray-600">Drag and drop your logo here, or</p>
-                      <label className="mt-2 cursor-pointer">
-                        <span className="text-black font-medium hover:underline">browse files</span>
+                    <p className="text-gray-500">
+                      Drag file or{" "}
+                      <label className="cursor-pointer">
+                        <span className="text-black font-medium hover:underline">browse</span>
                         <input
                           type="file"
                           className="hidden"
@@ -193,12 +195,12 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
                           disabled={isUploading}
                         />
                       </label>
-                    </div>
-                    <p className="text-sm text-gray-500">Supported formats: PNG, JPG, GIF</p>
-                  </div>
+                    </p>
+                    <p className="text-sm text-gray-400 mt-1">PNG, JPG, GIF</p>
+                  </>
                 )}
                 {isUploading && (
-                  <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-lg">
+                  <div className="absolute inset-0 bg-white/90 flex items-center justify-center rounded-md">
                     <div className="flex items-center space-x-2">
                       <svg className="animate-spin h-5 w-5 text-black" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -213,40 +215,37 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
 
             {/* Brand Color */}
             <div>
-              <label className="block mb-2 font-medium">Brand Color</label>
-              <div className="flex items-center space-x-4">
+              <label className="block  font-medium">Brand Color</label>
+              <div className="flex items-center space-x-3">
                 <input
                   type="color"
                   name="brandColor"
                   value={formData.brandColor}
                   onChange={handleChange}
-                  className="w-16 h-16 p-1 rounded-lg cursor-pointer"
+                  className="w-10 h-10 p-0 border-0 rounded cursor-pointer"
                 />
                 <input
                   type="text"
                   value={formData.brandColor}
                   onChange={(e) => handleChange({ target: { name: "brandColor", value: e.target.value } })}
-                  className="w-32 p-3 border border-gray-200 rounded-lg font-mono"
+                  className="w-28 p-2.5 border border-gray-300 rounded-md font-mono"
                   placeholder="#000000"
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-end pt-4">
+            {/* Continue Button */}
+            <div className="flex justify-end mt-10">
               <button
                 type="button"
                 onClick={nextStep}
                 disabled={isUploading}
-                className="btn btn-primary inline-flex items-center space-x-2"
+                className="px-6 py-2.5 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
               >
-                <span>Continue to Subscription</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
+                Continue
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
