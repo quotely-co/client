@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Lollipop } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,7 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
     try {
 
       const HOST = import.meta.env.VITE_HOST_URL;
+      const SUBDOMAIN_HOST = import.meta.env.VITE_HOST_URL;
 
 
       const response = await axios.post(
@@ -35,12 +37,12 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
 
 
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.token)
         toast.success("Onborded SuccesFully")
         const { token, subdomain } = response.data;
         const redirectSubdomain = subdomain || "test"
-
-        window.location.href = `http://${redirectSubdomain}.localhost:5173?token=${token}`;
+        localStorage.setItem("subdomain", redirectSubdomain)
+        localStorage.setItem("token", token)
+        window.location.href = `http://${redirectSubdomain}.localhost:3000?token=${token}`;
       } else {
         toast.error(response.data.message)
       }
