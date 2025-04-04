@@ -27,7 +27,7 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
 
       const HOST = import.meta.env.VITE_HOST_URL;
 
-      
+
       const response = await axios.post(
         `${HOST}/api/factory/add-factory`,
         { formData },
@@ -37,8 +37,10 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token)
         toast.success("Onborded SuccesFully")
-        const subdomain = response.data.subdomain|| "test"
-        window.location.href = `http://${subdomain}.localhost:5173`; // Redirect to subdomain
+        const { token, subdomain } = response.data;
+        const redirectSubdomain = subdomain || "test"
+
+        window.location.href = `http://${redirectSubdomain}.localhost:5173?token=${token}`;
       } else {
         toast.error(response.data.message)
       }
