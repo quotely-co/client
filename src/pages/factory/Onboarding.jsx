@@ -49,14 +49,14 @@ const Onboarding = () => {
           prevStep={prevStep}
         />
       )}
-      {/* {step === 3 && (
+      {step === 3 && (
         <Step3
           formData={formData}
           handleChange={handleChange}
           prevStep={prevStep}
           handleSubmit={handleSubmit}
         />
-      )} */}
+      )}
     </div>
   );
 };

@@ -26,32 +26,37 @@ const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"
 const FactoryLogin = lazy(() => import("./pages/factory/Login"));
 const FactoryRegister = lazy(() => import("./pages/factory/Register"));
 
+// 404 Page
+const NotFound = () => <h1>404 - Page Not Found</h1>;
+
 const App = () => (
   <Router>
     <Suspense fallback={<LoadingSpinner />}>
       <Routes>
-        {/* General */}
+        {/* General Pages */}
         <Route path="/" element={<Landing />} />
         <Route path="/support" element={<Support />} />
-        <Route path="/Contact" element={<ContactUs />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
 
-
-        {/* Customer routes */}
+        {/* Customer Routes */}
         <Route path="/register" element={<OpenRoute><Register /></OpenRoute>} />
         <Route path="/login" element={<OpenRoute><Login /></OpenRoute>} />
-        <Route path="/*" element={<CustomerDashboard />} />
+        <Route path="/dashboard/*" element={<ProtectedRoute><CustomerDashboard /></ProtectedRoute>} />
 
-        {/* Factory routes */}
+        {/* Factory Routes */}
         <Route path="/factory/register" element={<OpenRoute><FactoryRegister /></OpenRoute>} />
         <Route path="/factory/login" element={<OpenRoute><FactoryLogin /></OpenRoute>} />
-        <Route path="/factory/*" element={<ProtectedRoute><FactoryDashboard /></ProtectedRoute>} />
         <Route path="/factory/onboarding" element={<OpenRoute><Onboarding /></OpenRoute>} />
+        <Route path="/factory/*" element={<ProtectedRoute><FactoryDashboard /></ProtectedRoute>} />
 
-        {/* Admin routes */}
-        <Route path="/admin" element={<Admin />}></Route>
+        {/* Admin */}
+        <Route path="/admin" element={<Admin />} />
+
+        {/* Fallback 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
     <Toaster />

@@ -172,7 +172,8 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
               </button>
               <button
                 type="button"
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
+                onClick={nextStep}
                 // disabled={!isFormValid()}
                 className="btn btn-primary inline-flex items-center space-x-2"
               >
