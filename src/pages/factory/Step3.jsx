@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+
 import axios from "axios";
 
 // Load Stripe outside of component to avoid recreating Stripe object on renders
-const stripePromise = loadStripe("pk_test_51O685hSG33pep1pcj2Re8B8s3PQYVnN9pM8nTIhuTcpemvWsPRCbNQBiftR6HQQcziymD5TGzvlVruELvI1y4irt005z22L1m5");
 
 const Step3 = ({ prevStep }) => {  
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -15,6 +14,7 @@ const Step3 = ({ prevStep }) => {
     {
       id: "basic",
       name: "Basic Plan",
+      priceId:"price_1RB7A8SG33pep1pckRHsK3WR",
       price: 10,
       annualPrice: 96, // 20% discount for annual
       currency: "USD",
@@ -25,6 +25,8 @@ const Step3 = ({ prevStep }) => {
     {
       id: "pro",
       name: "Pro Plan",
+      priceId:"price_1RB7AgSG33pep1pcXK35FEu8",
+      
       price: 25,
       annualPrice: 240, // 20% discount for annual
       currency: "USD",
@@ -54,6 +56,9 @@ const Step3 = ({ prevStep }) => {
       alert("Please select a subscription plan.");
       return;
     }
+  
+    console.log(selectedPlan.priceId);
+
 
     setIsProcessing(true);
 
@@ -64,26 +69,20 @@ const Step3 = ({ prevStep }) => {
         : selectedPlan.annualPrice * 100;
         
       // Create a Checkout Session
-      const response = await axios.post(`${import.meta.env.VITE_HOST_URL}/api/payment/create-checkout-session`, {
-        planId: selectedPlan.id,
-        planName: selectedPlan.name,
-        unitAmount: amount,
-        currency: selectedPlan.currency,
-        interval: billingCycle,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_HOST_URL}/api/payment/create-checkout-session`,
+        { selectedPlan: { priceId: selectedPlan.priceId } }, // Body data
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      
 
       const { sessionId } = response.data;
-      
-      // Redirect to Stripe Checkout
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: sessionId
-      });
-
-      if (error) {
-        console.error('Error redirecting to checkout:', error);
-        alert('An error occurred. Please try again.');
-      }
+    
+      window.location.href = sessionId.url
     } catch (error) {
       console.error("Checkout session creation failed:", error);
       alert("Failed to initialize checkout process. Please try again.");

@@ -27,13 +27,15 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
     try {
 
       const HOST = import.meta.env.VITE_HOST_URL;
-      const SUBDOMAIN_HOST = import.meta.env.VITE_HOST_URL;
-
 
       const response = await axios.post(
         `${HOST}/api/factory/add-factory`,
         { formData },
       );
+
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
 
 
       if (response.status === 200) {
@@ -42,7 +44,7 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
         const redirectSubdomain = subdomain || "test"
         localStorage.setItem("subdomain", redirectSubdomain)
         localStorage.setItem("token", token)
-        window.location.href = `http://${redirectSubdomain}.localhost:3000?token=${token}`;
+        window.location.href = `https://${redirectSubdomain}.quotely.shop?token=${token}`;
       } else {
         toast.error(response.data.message)
       }
