@@ -33,18 +33,16 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
         { formData },
       );
 
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
-
-
       if (response.status === 200) {
-        toast.success("Onborded SuccesFully")
+        toast.success("data Saved Successfully");
         const { token, subdomain } = response.data;
+        console.log('====================================');
+        console.log(token , subdomain);
+        console.log('====================================');
         const redirectSubdomain = subdomain || "test"
         localStorage.setItem("subdomain", redirectSubdomain)
         localStorage.setItem("token", token)
-        window.location.href = `https://${redirectSubdomain}.quotely.shop?token=${token}`;
+        nextStep()
       } else {
         toast.error(response.data.message)
       }
@@ -175,7 +173,7 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
               <button
                 type="button"
                 // onClick={handleSubmit}
-                onClick={nextStep}
+                onClick={handleSubmit}
                 // disabled={!isFormValid()}
                 className="btn btn-primary inline-flex items-center space-x-2"
               >

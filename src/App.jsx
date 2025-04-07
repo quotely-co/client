@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import OpenRoute from "./components/auth/OpenRoute";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoadingSpinner from "./components/common/Loading";
+import Success from "./pages/Success";
+import Failure from "./pages/Failure";
 
 // Lazy-loaded components
 const Landing = lazy(() => import("./pages/Landing"));
@@ -54,6 +56,8 @@ const App = () => (
 
         {/* Admin */}
         <Route path="/admin" element={<Admin />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/failure" element={<Failure />} />
 
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound />} />
