@@ -37,7 +37,7 @@ const Success = () => {
 
   useEffect(() => {
     if (!sessionId) return;
-
+    const host = import.meta.env.VITE_HOST_URL || "https://api.quotely.shop/"
     // Show loading toast immediately
     const loadingToast = toast.loading("Setting up your dashboard...", {
       position: "top-center",
@@ -49,7 +49,7 @@ const Success = () => {
         const token = localStorage.getItem("token");
         
         const response = await axios.post(
-          "http://localhost:5000/api/factory/activate-account",
+          `${host}api/factory/activate-account`,
           { sessionId },
           {
             headers: {
