@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Logo from "../assets/logosaas.png";
+import Logo from "../assets/logo.png";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
