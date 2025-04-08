@@ -44,8 +44,9 @@ const Success = () => {
     // Final redirect after completion animation
     setTimeout(() => {
       const subdomain = localStorage.getItem("subdomain");
+      const token = localStorage.getItem("token");
       if (subdomain) {
-        window.location.href = `https://${subdomain}.quotely.shop`;
+        window.location.href = `https://${subdomain}.quotely.shop?token=${encodeURIComponent(token)}`;
       } else {
         // Fallback if subdomain isn't found
         window.location.href = "https://quotely.shop/dashboard";
@@ -61,17 +62,17 @@ const Success = () => {
         {/* Success Icon with Animation */}
         <div className="mb-6">
           <div className="mx-auto w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-            <svg 
+            <svg
               className={`w-12 h-12 text-green-500 ${isComplete ? 'animate-bounce' : ''}`}
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M5 13l4 4L19 7"
               />
             </svg>
@@ -83,14 +84,14 @@ const Success = () => {
           {isComplete ? "Your Dashboard is Ready!" : "Payment Successful! 🎉"}
         </h1>
         <p className="text-gray-600 mb-6">
-          {isComplete 
+          {isComplete
             ? "We've created your custom workspace. Redirecting you now..."
             : "We're setting up your personalized dashboard. This will just take a moment."}
         </p>
 
         {/* Progress Bar */}
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-          <div 
+          <div
             className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />

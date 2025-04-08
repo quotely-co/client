@@ -36,9 +36,6 @@ const Step2 = ({ formData, handleChange, nextStep, prevStep }) => {
       if (response.status === 200) {
         toast.success("data Saved Successfully");
         const { token, subdomain } = response.data;
-        console.log('====================================');
-        console.log(token , subdomain);
-        console.log('====================================');
         const redirectSubdomain = subdomain || "test"
         localStorage.setItem("subdomain", redirectSubdomain)
         localStorage.setItem("token", token)
