@@ -49,7 +49,7 @@ const Success = () => {
         const token = localStorage.getItem("token");
         
         const response = await axios.post(
-          `${host}api/factory/activate-account`,
+          `${host}/api/factory/activate-account`,
           { sessionId },
           {
             headers: {
@@ -58,6 +58,8 @@ const Success = () => {
             },
           }
         );
+        console.log("Account activation response:", response.data);
+        
         
         // Update toast on success
         toast.success("Account activated successfully!", {
