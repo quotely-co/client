@@ -122,8 +122,10 @@ const Step3 = ({ prevStep }) => {
 
       let response;
       
+      alert(import.meta.env.VITE_HOST_URL)
       // Handle different payment gateways
       switch(paymentMethod) {
+        
         case "stripe":
           response = await axios.post(
             `${import.meta.env.VITE_HOST_URL}/api/payment/create-checkout-session`,
