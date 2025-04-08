@@ -16,14 +16,13 @@ const OpenRoute = ({ children }) => {
     return children; // If token is invalid, treat user as unauthenticated
   }
 
-  const host = import.meta.env.VITE_VENTOR_BASE_URL || "https://quotely.shop/";
 
   if (payload.role === "customer") {
     return <Navigate to="/customer" replace />;
   } else if (payload.role === "factory") {
     const subdomain = localStorage.getItem("subdomain");
     if (subdomain) {
-      window.location.href = `http://${subdomain}.${host}?token=${token}`;
+      window.location.href = `http://${subdomain}.quotely.shop?token=${token}`;
       return null; // Prevent React from rendering anything further
     }
     return <Navigate to="/factory" replace />; // Fallback in case no subdomain is set
