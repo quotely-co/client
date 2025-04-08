@@ -8,6 +8,7 @@ const Step3 = ({ prevStep }) => {
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [error, setError] = useState(null);
 
+  const host = import.meta.env.VITE_HOST_URL || "https://api.quotely.shop/";
   // Enhanced subscription plans with annual options
   const subscriptionPlans = [
     {
@@ -127,7 +128,7 @@ const Step3 = ({ prevStep }) => {
         
         case "stripe":
           response = await axios.post(
-            `https://api.quotely.shop/api/payment/create-checkout-session`,
+            `${host}/api/payment/create-checkout-session`,
             { 
               selectedPlan: { 
                 priceId: selectedPlan.priceId,
