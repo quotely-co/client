@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Logo from "../assets/logo.png";
 import SocialX from "../assets/social-x.svg";  // Make sure these paths are correct
 import SocialYoutube from "../assets/social-youtube.svg";
 import SocialInsta from "../assets/social-insta.svg";
