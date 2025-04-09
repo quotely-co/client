@@ -271,7 +271,7 @@ const VerificationPage = ({ email, actualOTP, onSuccess }) => {
                 onSuccess(true);
                 const token = localStorage.getItem("token");
                 const subdomain = localStorage.getItem("subdomain");
-                window.location.href = `http://${subdomain}.localhost:3000?token=${token}`; // Redirect to dashboard
+                window.location.href = `https://${subdomain}.quotely.shop?token=${token}`; // Redirect to dashboard
             } else {
                 setError('Invalid verification code. Please try again.');
             }
