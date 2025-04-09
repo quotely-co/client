@@ -9,6 +9,17 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const HOST = import.meta.env.VITE_HOST_URL;
+    
+    const handleGoogleSignup = () => {
+        try {
+          const googleAuthURL = `${HOST}/api/auth/google`; // Your backend Google OAuth route
+          window.location.href = googleAuthURL;
+    
+        } catch (error) {
+          console.log(error);
+          toast.error("Google sign-up failed. Please try again.");
+        }
+      };  
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -118,6 +129,7 @@ const LoginPage = () => {
                         <div className="mt-6">
                             <button
                                 type="button"
+                                onClick={handleGoogleSignup}
                                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                             >
                                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">

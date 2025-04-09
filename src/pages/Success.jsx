@@ -195,7 +195,7 @@ const Success = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          We're setting up your dashboard and will redirect you automatically.
+          We&apos;re setting up your dashboard and will redirect you automatically.
         </motion.p>
 
         {/* Pulse Animation for Loading */}

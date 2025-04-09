@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LoadingSpinner from "./components/common/Loading";
 import Success from "./pages/Success";
 import Failure from "./pages/Failure";
+import LoginSuccess from "./components/LoginSuccess";
 
 // Lazy-loaded components
 const Landing = lazy(() => import("./pages/Landing"));
@@ -58,6 +59,8 @@ const App = () => (
         <Route path="/admin" element={<Admin />} />
         <Route path="/success" element={<Success />} />
         <Route path="/failure" element={<Failure />} />
+        <Route path="/customer/login/success" element={<LoginSuccess />} />
+
 
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound />} />

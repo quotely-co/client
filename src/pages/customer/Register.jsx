@@ -70,26 +70,21 @@ const RegisterPage = () => {
         toast.error(response.data.message || "Failed to resend OTP");
       }
     } catch (err) {
+      console.log(err);
       toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
-  const handleGoogleSignup = async () => {
-    // Implement Google sign-up logic here
-    // This is a placeholder for the actual implementation
+  const handleGoogleSignup = () => {
     try {
-      // You would typically open a Google OAuth popup or redirect here
-      toast.info("Google signup functionality will be implemented by your backend");
+      const googleAuthURL = `${HOST}/api/auth/google`; // Your backend Google OAuth route
+      window.location.href = googleAuthURL;
 
-      // Once you have implemented the backend:
-      // 1. Redirect to Google auth
-      // 2. Get the token from Google
-      // 3. Send the token to your backend
-      // 4. Navigate to dashboard upon success
     } catch (error) {
+      console.log(error);
       toast.error("Google sign-up failed. Please try again.");
     }
-  };
+  };  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

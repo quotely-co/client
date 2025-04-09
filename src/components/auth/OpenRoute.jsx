@@ -1,5 +1,4 @@
 // OpenRoute.js
-import React from "react";
 import { Navigate } from "react-router-dom";
 
 const OpenRoute = ({ children }) => {
@@ -15,10 +14,12 @@ const OpenRoute = ({ children }) => {
     console.error("Invalid token:", error);
     return children; // If token is invalid, treat user as unauthenticated
   }
+  console.log(payload);
+  
 
 
   if (payload.role === "customer") {
-    return <Navigate to="/customer" replace />;
+    return <Navigate to="/dashboard" replace />;
   } else if (payload.role === "factory") {
     const subdomain = localStorage.getItem("subdomain");
     if (subdomain) {

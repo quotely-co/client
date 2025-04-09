@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import Logo from "../assets/Logo.png";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -48,7 +48,7 @@ const Header = () => {
     { name: 'Features', path: '/app/features' },
     { name: 'Customers', path: '/app/customers' },
     { name: 'Updates', path: '/app/updates' },
-    { name: 'For Factories', path: '/factory/onboarding', highlight: true },
+    { name: 'For Factories', path: '/factory/onboarding' },
   ];
 
   return (

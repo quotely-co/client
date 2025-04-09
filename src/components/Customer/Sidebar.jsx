@@ -31,7 +31,7 @@ const Sidebar = ({ onSidebarClose }) => {
     localStorage.removeItem("token");
     toast.success("Logged out successfully");
     if (onSidebarClose) onSidebarClose(); // Close sidebar on logout
-    navigate("/auth/login");
+    navigate("/login");
   };
 
   // Modified navigation handler
