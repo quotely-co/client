@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Step1 = ({ formData, handleChange, nextStep }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [previewLogo, setPreviewLogo] = useState(formData.logo || "");
+
+  const navigate = useNavigate();
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
@@ -59,33 +62,6 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const HOST = import.meta.env.VITE_HOST_URL;
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("No access token found!");
-        return;
-      }
-
-      const response = await axios.post(
-        `${HOST}/api/user/branding1`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        nextStep();
-      }
-    } catch (error) {
-      console.error("Error saving branding details", error);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white flex justify-center">
@@ -116,6 +92,7 @@ const Step1 = ({ formData, handleChange, nextStep }) => {
           <div className="mb-12">
             <h1 className="text-2xl font-medium">Add Your Brand</h1>
             <p className="text-gray-500 mt-1">Let's upgrade your sales</p>
+            <p className="text-gray-500 text-xs hover:cursor-pointer mt-1 underline " onClick={()=> navigate("/factory/login")}>alredy have an account ? login</p>
           </div>
 
           {/* Form */}
