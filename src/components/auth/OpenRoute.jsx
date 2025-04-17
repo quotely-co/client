@@ -18,7 +18,7 @@ const OpenRoute = ({ children }) => {
   }, [isLoggingOut]);
 
   const token = localStorage.getItem("token");
-  alert(token)
+  alert(localStorage.getItem("subdomain"))
 
   if (!token) {
     return children;
