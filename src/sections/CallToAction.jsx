@@ -5,8 +5,13 @@ import starImage from "../assets/star.png";
 import springImage from "../assets/spring.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
- const CallToAction = () => {
+const CallToAction = () => {
+  const navigate = useNavigate();
+  const handleRegister = () => {
+    navigate('/register');
+  }
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -43,7 +48,7 @@ import { useRef } from "react";
           />
         </div>
         <div className="mt-10 flex justify-center gap-2">
-          <button className="btn btn-primary">Get for free</button>
+          <button onClick={handleRegister} className="btn btn-primary">Get for free</button>
           <button className="btn btn-text gap-1">
             <span>Learn more</span>
             {/* Uncomment this line if you have the ArrowIcon */}

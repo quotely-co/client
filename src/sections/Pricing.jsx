@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const pricingTiers = [
   {
@@ -49,7 +50,12 @@ const pricingTiers = [
   },
 ];
 
+
 const Pricing = () => {
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const handlePayment = () => {
+    navigate('/register'); 
+  }
   return (
     <section className="py-24">
       <div className="container">
@@ -102,7 +108,7 @@ const Pricing = () => {
                   /month
                 </span>
               </div>
-              <button
+              <button onClick={handlePayment}
                 aria-label={`Sign up for ${tier.title} plan`}
                 className={twMerge(
                   "btn btn-primary mt-[30px] w-full",

@@ -10,7 +10,7 @@ const Hero = () => {
   
 
   const handleLogin = () => {
-    navigate('/auth/register');
+    navigate('/register');
   };
 
   const heroRef = useRef(null);
