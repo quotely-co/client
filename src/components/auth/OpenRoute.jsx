@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 const OpenRoute = ({ children }) => {
   const urlParams = new URLSearchParams(window.location.search);
   const isLoggingOut = urlParams.get("logout") === "true";
-
+  
   useEffect(() => {
     if (isLoggingOut) {
       // Clear token and subdomain on logout
