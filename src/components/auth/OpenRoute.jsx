@@ -14,11 +14,11 @@ const OpenRoute = ({ children }) => {
       // Clean the URL by removing ?logout=true
       const newUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
-      return children
     }
-  }, []);
+  }, [isLoggingOut]);
 
   const token = localStorage.getItem("token");
+  alert(token)
 
   if (!token) {
     return children;
