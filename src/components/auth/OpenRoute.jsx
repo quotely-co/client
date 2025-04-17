@@ -1,22 +1,35 @@
-// OpenRoute.js
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 const OpenRoute = ({ children }) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isLoggingOut = urlParams.get("logout") === "true";
+
+  useEffect(() => {
+    if (isLoggingOut) {
+      // Clear token and subdomain on logout
+      localStorage.removeItem("token");
+      localStorage.removeItem("subdomain");
+
+      // Clean the URL by removing ?logout=true
+      const newUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, [isLoggingOut]);
+
   const token = localStorage.getItem("token");
+
   if (!token) {
     return children;
   }
 
   let payload;
   try {
-    payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+    payload = JSON.parse(atob(token.split(".")[1]));
   } catch (error) {
     console.error("Invalid token:", error);
-    return children; // If token is invalid, treat user as unauthenticated
+    return children;
   }
-  console.log(payload);
-  
-
 
   if (payload.role === "customer") {
     return <Navigate to="/dashboard" replace />;
@@ -24,9 +37,9 @@ const OpenRoute = ({ children }) => {
     const subdomain = localStorage.getItem("subdomain");
     if (subdomain) {
       window.location.href = `http://${subdomain}.quotely.shop?token=${token}`;
-      return null; // Prevent React from rendering anything further
+      return null;
     }
-    return <Navigate to="/factory" replace />; // Fallback in case no subdomain is set
+    return <Navigate to="/factory" replace />;
   }
 
   return children;

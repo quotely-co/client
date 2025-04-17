@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+useEffect(()=>{
+
+})
 const checkUserExists = async (email) => {
     const HOST = import.meta.env.VITE_HOST_URL;
 
@@ -49,9 +52,9 @@ const verifyOTP = async (email, userEnteredOTP, actualOTP) => {
         const response = await axios.post(
             `${HOST}/api/auth/factory/verify-otp`,
             { email, userEnteredOTP, actualOTP },
-            { withCredentials: true } 
-          );
-          
+            { withCredentials: true }
+        );
+
         if (response.status === 200) {
             console.log("OTP verification response:", response.data)
             localStorage.setItem("token", response.data.token);
@@ -78,6 +81,7 @@ const QuotelyLogo = () => (
 
 // First Page - Email Input
 const EmailLoginPage = ({ onContinue }) => {
+
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
