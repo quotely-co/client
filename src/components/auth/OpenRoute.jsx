@@ -1,15 +1,19 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 const OpenRoute = ({ children }) => {
   const urlParams = new URLSearchParams(window.location.search);
   const isLoggingOut = urlParams.get("logout") === "true";
-  
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   useEffect(() => {
     if (isLoggingOut) {
       // Clear token and subdomain on logout
       localStorage.removeItem("token");
       localStorage.removeItem("subdomain");
+
+      // Update our state to reflect the removed token
+      setToken(null);
 
       // Clean the URL by removing ?logout=true
       const newUrl = window.location.origin + window.location.pathname;
@@ -17,9 +21,7 @@ const OpenRoute = ({ children }) => {
     }
   }, [isLoggingOut]);
 
-  const token = localStorage.getItem("token");
-  alert(localStorage.getItem("subdomain"))
-
+  // If no token, render children (login page)
   if (!token) {
     return children;
   }
@@ -31,7 +33,6 @@ const OpenRoute = ({ children }) => {
     console.error("Invalid token:", error);
     return children;
   }
-
   if (payload.role === "customer") {
     return <Navigate to="/dashboard" replace />;
   } else if (payload.role === "factory") {
