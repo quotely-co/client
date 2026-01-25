@@ -272,18 +272,18 @@ const VerificationPage = ({ email, actualOTP, onSuccess }) => {
             if (success) {
                 toast.success('Verification successful!');
                 onSuccess(true);
-                    const token = localStorage.getItem("token");
-                    const subdomain = localStorage.getItem("subdomain");
-                    const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_HOST_URL || "http://localhost:5000";
-                    const CLIENT_URL = import.meta.env.VITE_CLIENT_URL || window.location.origin;
-                    const isLocal = API_URL.includes("localhost") || window.location.hostname === "localhost";
-                    if (isLocal) {
-                        // In local dev, redirect to client origin dashboard
-                        window.location.href = `${CLIENT_URL}/dashboard?token=${token}`;
-                    } else {
-                        // In production, redirect to subdomain-hosted dashboard
-                        window.location.href = `${API_URL.replace("http://", "https://").replace("https://", `https://${subdomain}.`)}/dashboard?token=${token}`; // Redirect to dashboard
-                    }
+                const token = localStorage.getItem("token");
+                const subdomain = localStorage.getItem("subdomain");
+                const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_HOST_URL || "http://localhost:5000";
+                const CLIENT_URL = import.meta.env.VITE_CLIENT_URL || window.location.origin;
+                const isLocal = API_URL.includes("localhost") || window.location.hostname === "localhost";
+                if (isLocal) {
+                    // In local dev, redirect to client origin dashboard
+                    window.location.href = `${CLIENT_URL}/dashboard?token=${token}`;
+                } else {
+                    // In production, redirect to subdomain-hosted dashboard
+                    window.location.href = `${API_URL.replace("http://", "https://").replace("https://", `https://${subdomain}.`)}/dashboard?token=${token}`; // Redirect to dashboard
+                }
             } else {
                 setError('Invalid verification code. Please try again.');
             }
