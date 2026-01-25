@@ -6,6 +6,7 @@ const OpenRoute = ({ children }) => {
   const isLoggingOut = urlParams.get("logout") === "true";
   const [token, setToken] = useState(localStorage.getItem("token"));
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   useEffect(() => {
     if (isLoggingOut) {
       // Clear token and subdomain on logout
@@ -38,7 +39,8 @@ const OpenRoute = ({ children }) => {
   } else if (payload.role === "factory") {
     const subdomain = localStorage.getItem("subdomain");
     if (subdomain) {
-      window.location.href = `http://${subdomain}.quotely.shop?token=${token}`;
+
+      window.location.href = `${API_URL.replace("http://", "https://").replace("https://", `https://${subdomain}.`)}/dashboard`;
       return null;
     }
     return <Navigate to="/factory" replace />;

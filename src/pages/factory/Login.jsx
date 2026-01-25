@@ -273,7 +273,8 @@ const VerificationPage = ({ email, actualOTP, onSuccess }) => {
                 onSuccess(true);
                 const token = localStorage.getItem("token");
                 const subdomain = localStorage.getItem("subdomain");
-                window.location.href = `https://${subdomain}.quotely.shop?token=${token}`; // Redirect to dashboard
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+                window.location.href = `${API_URL.replace("http://", "https://").replace("https://", `https://${subdomain}.`)}/dashboard?token=${token}`; // Redirect to dashboard
             } else {
                 setError('Invalid verification code. Please try again.');
             }
