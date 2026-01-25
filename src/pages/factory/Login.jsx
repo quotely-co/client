@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AlertTriangle, Check, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -177,7 +177,7 @@ const EmailLoginPage = ({ onContinue }) => {
 // Verification Code Input Component
 const OTPInput = ({ length = 6, value, onChange }) => {
     const [code, setCode] = useState(Array(length).fill(''));
-    const inputRefs = Array(length).fill(0).map(() => useState(null));
+    const inputRefs = useRef([]);
 
     useEffect(() => {
         // Update internal state if value prop changes
@@ -198,7 +198,7 @@ const OTPInput = ({ length = 6, value, onChange }) => {
 
             // Move to next input if value is entered
             if (val && index < length - 1) {
-                inputRefs[index + 1][0]?.focus();
+                inputRefs.current[index + 1]?.focus();
             }
         }
     };
@@ -206,7 +206,7 @@ const OTPInput = ({ length = 6, value, onChange }) => {
     const handleKeyDown = (index, e) => {
         // Move to previous input on backspace if current is empty
         if (e.key === 'Backspace' && !code[index] && index > 0) {
-            inputRefs[index - 1][0]?.focus();
+            inputRefs.current[index - 1]?.focus();
         }
     };
 
@@ -231,7 +231,7 @@ const OTPInput = ({ length = 6, value, onChange }) => {
                     value={digit}
                     onChange={(e) => handleCodeChange(index, e.target.value.replace(/\D/g, ''))}
                     onKeyDown={(e) => handleKeyDown(index, e)}
-                    ref={(el) => inputRefs[index][1](el)}
+                    ref={(el) => (inputRefs.current[index] = el)}
                     className="w-10 h-10 text-center font-medium bg-zinc-900 rounded border border-zinc-700 focus:border-white focus:outline-none"
                     maxLength={1}
                     autoComplete="one-time-code"
@@ -287,8 +287,8 @@ const VerificationPage = ({ email, actualOTP, onSuccess }) => {
             } else {
                 setError('Invalid verification code. Please try again.');
             }
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             setError('Something went wrong. Please try again.');
         } finally {
             setIsLoading(false);
@@ -307,7 +307,8 @@ const VerificationPage = ({ email, actualOTP, onSuccess }) => {
                 setCountdown(30);
                 setError('');
             }
-        } catch (err) {
+        } catch (error) {
+            console.log(error);
             setError('Failed to resend code');
         } finally {
             setIsResending(false);
