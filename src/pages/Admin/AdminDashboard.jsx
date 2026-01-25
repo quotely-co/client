@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function AdminDashboard() {
     const [users, setUsers] = useState([]);
     const [factories, setFactories] = useState([]);
@@ -8,7 +10,7 @@ function AdminDashboard() {
     // Fetch users from the backend
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/user/users');
+            const response = await axios.get(`${API_URL}/api/user/users`);
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -18,7 +20,7 @@ function AdminDashboard() {
     // Fetch factories from the backend
     const fetchFactories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/factory/factories');
+            const response = await axios.get(`${API_URL}/api/factory/factories`);
             setFactories(response.data);
         } catch (error) {
             console.error('Error fetching factories:', error);
@@ -28,7 +30,7 @@ function AdminDashboard() {
     // Delete user
     const deleteUser = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/user/users/${id}`);
+            await axios.delete(`${API_URL}/api/user/users/${id}`);
             fetchUsers(); // Refresh the user list
         } catch (error) {
             console.error('Error deleting user:', error);
@@ -38,7 +40,7 @@ function AdminDashboard() {
     // Delete factory
     const deleteFactory = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/factory/factories/${id}`);
+            await axios.delete(`${API_URL}/api/factory/factories/${id}`);
             fetchFactories(); // Refresh the factory list
         } catch (error) {
             console.error('Error deleting factory:', error);

@@ -39,6 +39,13 @@ const OpenRoute = ({ children }) => {
   } else if (payload.role === "factory") {
     const subdomain = localStorage.getItem("subdomain");
     if (subdomain) {
+      // For local development (API on localhost) avoid constructing a subdomain URL
+      // Use client origin instead so developers stay on localhost
+      const isLocal = API_URL.includes("localhost") || window.location.hostname === "localhost";
+      if (isLocal) {
+        window.location.href = `${window.location.origin}/dashboard`;
+        return null;
+      }
 
       window.location.href = `${API_URL.replace("http://", "https://").replace("https://", `https://${subdomain}.`)}/dashboard`;
       return null;
