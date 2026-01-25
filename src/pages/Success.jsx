@@ -37,7 +37,7 @@ const Success = () => {
 
   useEffect(() => {
     if (!sessionId) return;
-    const host = import.meta.env.VITE_HOST_URL || "https://api.quotely.shop/"
+    const host = import.meta.env.VITE_HOST_URL || "https://server-bshw.onrender.com/"
     // Show loading toast immediately
     const loadingToast = toast.loading("Setting up your dashboard...", {
       position: "top-center",
@@ -47,7 +47,7 @@ const Success = () => {
     const activateAccount = async () => {
       try {
         const token = localStorage.getItem("token");
-        
+
         const response = await axios.post(
           `${host}/api/factory/activate-account`,
           { sessionId },
@@ -59,25 +59,25 @@ const Success = () => {
           }
         );
         console.log("Account activation response:", response.data);
-        
-        
+
+
         // Update toast on success
         toast.success("Account activated successfully!", {
           id: loadingToast,
           duration: 3000,
         });
-        
+
         // Show redirect toast
         setTimeout(() => {
           toast.loading("Redirecting to your dashboard...", {
             duration: 2000,
           });
         }, 1000);
-        
+
       } catch (error) {
         // Show error toast
         toast.error(
-          error.response?.data?.message || "Failed to activate account", 
+          error.response?.data?.message || "Failed to activate account",
           { id: loadingToast }
         );
         setShowConfetti(false);
@@ -88,7 +88,7 @@ const Success = () => {
       setTimeout(() => {
         const subdomain = localStorage.getItem("subdomain");
         const token = localStorage.getItem("token");
-        
+
         if (subdomain) {
           window.location.href = `https://${subdomain}.quotely.shop?token=${encodeURIComponent(token)}`;
         } else {
@@ -103,8 +103,8 @@ const Success = () => {
   // Animation variants for framer-motion
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.5 }
     }
@@ -112,10 +112,10 @@ const Success = () => {
 
   const checkmarkVariants = {
     hidden: { pathLength: 0, opacity: 0 },
-    visible: { 
-      pathLength: 1, 
+    visible: {
+      pathLength: 1,
       opacity: 1,
-      transition: { 
+      transition: {
         duration: 0.8,
         ease: "easeInOut",
         delay: 0.2
@@ -125,10 +125,10 @@ const Success = () => {
 
   const circleVariants = {
     hidden: { scale: 0, opacity: 0 },
-    visible: { 
-      scale: 1, 
+    visible: {
+      scale: 1,
       opacity: 1,
-      transition: { 
+      transition: {
         duration: 0.4,
         ease: "easeOut"
       }
@@ -146,10 +146,10 @@ const Success = () => {
           gravity={0.15}
         />
       )}
-      
+
       <Toaster />
-      
-      <motion.div 
+
+      <motion.div
         className="w-full max-w-sm bg-white rounded-xl shadow-md p-6 text-center"
         initial="hidden"
         animate="visible"
@@ -157,7 +157,7 @@ const Success = () => {
       >
         {/* Success Icon */}
         <div className="mb-4">
-          <motion.div 
+          <motion.div
             className="mx-auto w-16 h-16 rounded-full bg-green-100 flex items-center justify-center"
             variants={circleVariants}
           >
@@ -180,7 +180,7 @@ const Success = () => {
         </div>
 
         {/* Title and Description */}
-        <motion.h1 
+        <motion.h1
           className="text-xl font-bold text-gray-800 mb-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -188,8 +188,8 @@ const Success = () => {
         >
           Payment Successful! 🎉
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           className="text-gray-600 mb-4 text-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -213,7 +213,7 @@ const Success = () => {
         />
 
         {/* Transaction ID */}
-        <motion.p 
+        <motion.p
           className="text-xs text-gray-400 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

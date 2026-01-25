@@ -1,14 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Step3 = ({ prevStep }) => {  
+const Step3 = ({ prevStep }) => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [billingCycle, setBillingCycle] = useState("month");
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [error, setError] = useState(null);
 
-  const host = import.meta.env.VITE_HOST_URL || "https://api.quotely.shop/";
+  const host = import.meta.env.VITE_HOST_URL || "https://server-bshw.onrender.com/";
   // Enhanced subscription plans with annual options
   const subscriptionPlans = [
     {
@@ -16,7 +16,7 @@ const Step3 = ({ prevStep }) => {
       name: "Basic Plan",
       priceId: "prod_S5RaU8u8ZwXjTn",
       price: 10,
-      annualPrice: 96, 
+      annualPrice: 96,
       currency: "USD",
       features: ["5 Projects", "Basic Analytics", "Email Support", "1 Team Member"],
       interval: "month",
@@ -37,7 +37,7 @@ const Step3 = ({ prevStep }) => {
     {
       id: "enterprise",
       name: "Enterprise Plan",
-      priceId:"price_1RBGinFaMYHAId8SCaCElvFF",
+      priceId: "price_1RBGinFaMYHAId8SCaCElvFF",
       price: 50,
       annualPrice: 480,
       currency: "USD",
@@ -54,9 +54,9 @@ const Step3 = ({ prevStep }) => {
       name: "Credit Card",
       icon: (
         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2"/>
-          <path d="M2 10H22" stroke="currentColor" strokeWidth="2"/>
-          <path d="M6 15H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
+          <path d="M2 10H22" stroke="currentColor" strokeWidth="2" />
+          <path d="M6 15H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
       ),
       description: "Pay with Visa, Mastercard, or Amex"
@@ -66,8 +66,8 @@ const Step3 = ({ prevStep }) => {
       name: "PayPal",
       icon: (
         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19.0571 8.4286C19.0571 10.9388 17.0245 13 14.5 13H11.5C11.2239 13 11 13.2239 11 13.5V17.5C11 17.7761 10.7761 18 10.5 18H7.5C7.22386 18 7 17.7761 7 17.5V6.5C7 6.22386 7.22386 6 7.5 6H14.5C17.0245 6 19.0571 7.91836 19.0571 10.4286V8.4286Z" stroke="currentColor" strokeWidth="2"/>
-          <path d="M15.0571 10.4286C15.0571 12.9388 13.0245 15 10.5 15H7.5C7.22386 15 7 15.2239 7 15.5V19.5C7 19.7761 6.77614 20 6.5 20H3.5C3.22386 20 3 19.7761 3 19.5V8.5C3 8.22386 3.22386 8 3.5 8H10.5C13.0245 8 15.0571 9.91836 15.0571 12.4286V10.4286Z" stroke="currentColor" strokeWidth="2"/>
+          <path d="M19.0571 8.4286C19.0571 10.9388 17.0245 13 14.5 13H11.5C11.2239 13 11 13.2239 11 13.5V17.5C11 17.7761 10.7761 18 10.5 18H7.5C7.22386 18 7 17.7761 7 17.5V6.5C7 6.22386 7.22386 6 7.5 6H14.5C17.0245 6 19.0571 7.91836 19.0571 10.4286V8.4286Z" stroke="currentColor" strokeWidth="2" />
+          <path d="M15.0571 10.4286C15.0571 12.9388 13.0245 15 10.5 15H7.5C7.22386 15 7 15.2239 7 15.5V19.5C7 19.7761 6.77614 20 6.5 20H3.5C3.22386 20 3 19.7761 3 19.5V8.5C3 8.22386 3.22386 8 3.5 8H10.5C13.0245 8 15.0571 9.91836 15.0571 12.4286V10.4286Z" stroke="currentColor" strokeWidth="2" />
         </svg>
       ),
       description: "Fast and secure payment with PayPal"
@@ -77,8 +77,8 @@ const Step3 = ({ prevStep }) => {
       name: "Alipay",
       icon: (
         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 7.5C4 5.567 5.567 4 7.5 4H16.5C18.433 4 20 5.567 20 7.5V16.5C20 18.433 18.433 20 16.5 20H7.5C5.567 20 4 18.433 4 16.5V7.5Z" stroke="currentColor" strokeWidth="2"/>
-          <path d="M7 14.5C12 11.5 16 15 16 15C16 15 14 9 7 9.5" stroke="currentColor" strokeWidth="2"/>
+          <path d="M4 7.5C4 5.567 5.567 4 7.5 4H16.5C18.433 4 20 5.567 20 7.5V16.5C20 18.433 18.433 20 16.5 20H7.5C5.567 20 4 18.433 4 16.5V7.5Z" stroke="currentColor" strokeWidth="2" />
+          <path d="M7 14.5C12 11.5 16 15 16 15C16 15 14 9 7 9.5" stroke="currentColor" strokeWidth="2" />
         </svg>
       ),
       description: "Popular payment method in China"
@@ -88,8 +88,8 @@ const Step3 = ({ prevStep }) => {
       name: "WeChat Pay",
       icon: (
         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 10C9 6.13401 12.134 3 16 3C19.866 3 23 6.13401 23 10C23 13.866 19.866 17 16 17C14.7751 17 13.6311 16.6738 12.6544 16.1015C12.4178 15.9685 12.1555 15.9247 11.8951 15.9772L8.5 16.5L9.0228 13.1049C9.07527 12.8445 9.03151 12.5822 8.89853 12.3456C8.32615 11.3689 8 10.2249 8 9" stroke="currentColor" strokeWidth="2"/>
-          <path d="M8 21C4.13401 21 1 17.866 1 14C1 10.134 4.13401 7 8 7" stroke="currentColor" strokeWidth="2"/>
+          <path d="M9 10C9 6.13401 12.134 3 16 3C19.866 3 23 6.13401 23 10C23 13.866 19.866 17 16 17C14.7751 17 13.6311 16.6738 12.6544 16.1015C12.4178 15.9685 12.1555 15.9247 11.8951 15.9772L8.5 16.5L9.0228 13.1049C9.07527 12.8445 9.03151 12.5822 8.89853 12.3456C8.32615 11.3689 8 10.2249 8 9" stroke="currentColor" strokeWidth="2" />
+          <path d="M8 21C4.13401 21 1 17.866 1 14C1 10.134 4.13401 7 8 7" stroke="currentColor" strokeWidth="2" />
         </svg>
       ),
       description: "Popular payment method in China"
@@ -117,23 +117,23 @@ const Step3 = ({ prevStep }) => {
 
     try {
       // Calculate the correct amount based on billing cycle
-      const amount = billingCycle === "month" 
-        ? selectedPlan.price * 100 
+      const amount = billingCycle === "month"
+        ? selectedPlan.price * 100
         : selectedPlan.annualPrice * 100;
 
       let response;
-      
+
       // Handle different payment gateways
-      switch(paymentMethod) {
-        
+      switch (paymentMethod) {
+
         case "stripe":
           response = await axios.post(
             `${host}/api/payment/create-checkout-session`,
-            { 
-              selectedPlan: { 
+            {
+              selectedPlan: {
                 priceId: selectedPlan.priceId,
                 billingCycle: billingCycle
-              } 
+              }
             },
             {
               headers: {
@@ -143,11 +143,11 @@ const Step3 = ({ prevStep }) => {
           );
           window.location.href = response.data.sessionId.url;
           break;
-          
+
         case "paypal":
           response = await axios.post(
             `${import.meta.env.VITE_HOST_URL}/api/payment/create-paypal-order`,
-            { 
+            {
               amount,
               currency: selectedPlan.currency,
               planId: selectedPlan.id,
@@ -161,11 +161,11 @@ const Step3 = ({ prevStep }) => {
           );
           window.location.href = response.data.approvalUrl;
           break;
-          
+
         case "alipay":
           response = await axios.post(
             `${import.meta.env.VITE_HOST_URL}/api/payment/create-alipay-order`,
-            { 
+            {
               amount,
               currency: selectedPlan.currency,
               planId: selectedPlan.id,
@@ -179,11 +179,11 @@ const Step3 = ({ prevStep }) => {
           );
           window.location.href = response.data.paymentUrl;
           break;
-          
+
         case "wechat":
           response = await axios.post(
             `${import.meta.env.VITE_HOST_URL}/api/payment/create-wechat-order`,
-            { 
+            {
               amount,
               currency: selectedPlan.currency,
               planId: selectedPlan.id,
@@ -198,7 +198,7 @@ const Step3 = ({ prevStep }) => {
           // For WeChat Pay, we might display a QR code instead of redirecting
           // This would require a different handling
           break;
-          
+
         default:
           throw new Error("Invalid payment method selected");
       }
@@ -222,7 +222,7 @@ const Step3 = ({ prevStep }) => {
 
   // Function to get region-specific payment methods
   const getRegionSpecificMethods = (region) => {
-    switch(region) {
+    switch (region) {
       case "western":
         return ["stripe", "paypal"];
       case "china":
@@ -269,21 +269,19 @@ const Step3 = ({ prevStep }) => {
           <div className="inline-flex items-center bg-gray-100 rounded-full p-1">
             <button
               onClick={() => setBillingCycle("month")}
-              className={`px-6 py-2 rounded-full transition-all ${
-                billingCycle === "month" 
-                  ? "bg-black text-white shadow-md" 
+              className={`px-6 py-2 rounded-full transition-all ${billingCycle === "month"
+                  ? "bg-black text-white shadow-md"
                   : "text-gray-600 hover:bg-gray-200"
-              }`}
+                }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingCycle("year")}
-              className={`px-6 py-2 rounded-full transition-all flex items-center ${
-                billingCycle === "year" 
-                  ? "bg-black text-white shadow-md" 
+              className={`px-6 py-2 rounded-full transition-all flex items-center ${billingCycle === "year"
+                  ? "bg-black text-white shadow-md"
                   : "text-gray-600 hover:bg-gray-200"
-              }`}
+                }`}
             >
               Annual <span className="ml-1 text-xs font-medium text-green-500">Save 20%</span>
             </button>
@@ -299,9 +297,8 @@ const Step3 = ({ prevStep }) => {
                 <div
                   key={plan.id}
                   onClick={() => handlePlanSelect(plan)}
-                  className={`relative rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer ${
-                    selectedPlan?.id === plan.id ? 'ring-2 ring-black shadow-lg transform scale-105' : 'border border-gray-200'
-                  }`}
+                  className={`relative rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer ${selectedPlan?.id === plan.id ? 'ring-2 ring-black shadow-lg transform scale-105' : 'border border-gray-200'
+                    }`}
                 >
                   {plan.popular && (
                     <div className="absolute top-0 inset-x-0 text-center py-1 bg-black text-white text-sm font-medium">
@@ -340,11 +337,10 @@ const Step3 = ({ prevStep }) => {
                         e.stopPropagation();
                         handlePlanSelect(plan);
                       }}
-                      className={`mt-6 w-full py-2 rounded-lg font-medium transition-all duration-300 ${
-                        selectedPlan?.id === plan.id 
-                          ? 'bg-black text-white' 
+                      className={`mt-6 w-full py-2 rounded-lg font-medium transition-all duration-300 ${selectedPlan?.id === plan.id
+                          ? 'bg-black text-white'
                           : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       {selectedPlan?.id === plan.id ? 'Selected' : 'Select Plan'}
                     </button>
@@ -395,18 +391,16 @@ const Step3 = ({ prevStep }) => {
                   <div
                     key={gateway.id}
                     onClick={() => handlePaymentMethodSelect(gateway.id)}
-                    className={`border p-4 rounded-lg cursor-pointer transition-all ${
-                      paymentMethod === gateway.id 
-                        ? 'border-black bg-gray-50' 
+                    className={`border p-4 rounded-lg cursor-pointer transition-all ${paymentMethod === gateway.id
+                        ? 'border-black bg-gray-50'
                         : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="text-gray-600">{gateway.icon}</div>
                       <div className="flex items-center justify-center">
-                        <div className={`w-5 h-5 rounded-full border ${
-                          paymentMethod === gateway.id ? 'border-black' : 'border-gray-300'
-                        } flex items-center justify-center`}>
+                        <div className={`w-5 h-5 rounded-full border ${paymentMethod === gateway.id ? 'border-black' : 'border-gray-300'
+                          } flex items-center justify-center`}>
                           {paymentMethod === gateway.id && (
                             <div className="w-3 h-3 rounded-full bg-black"></div>
                           )}
@@ -442,11 +436,10 @@ const Step3 = ({ prevStep }) => {
                 type="button"
                 onClick={handleProceedToCheckout}
                 disabled={!selectedPlan || isProcessing}
-                className={`px-6 py-3 rounded-lg bg-black text-white transition-colors ${
-                  (!selectedPlan || isProcessing) 
-                    ? 'opacity-50 cursor-not-allowed' 
+                className={`px-6 py-3 rounded-lg bg-black text-white transition-colors ${(!selectedPlan || isProcessing)
+                    ? 'opacity-50 cursor-not-allowed'
                     : 'hover:bg-gray-800'
-                }`}
+                  }`}
               >
                 {isProcessing ? (
                   <span className="flex items-center">
@@ -461,7 +454,7 @@ const Step3 = ({ prevStep }) => {
                 )}
               </button>
             </div>
-            
+
             {/* Security Notice */}
             <div className="mt-6 text-center text-sm text-gray-500 flex items-center justify-center">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
